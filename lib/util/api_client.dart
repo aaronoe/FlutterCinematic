@@ -49,12 +49,16 @@ class ApiClient {
   }
 
   Future<List<Movie>> getMoviesForActor(int actorId) async {
-    var url = new Uri.https(baseUrl, '3/person/$actorId/movie_credits', {
-      'api_key': API_KEY,
-    });
+    var url = new Uri.https(
+        baseUrl, '3/discover/movie',
+        {
+          'api_key': API_KEY,
+          'with_cast': actorId.toString(),
+          'sort_by': 'popularity.desc'
+        });
 
     return _getJson(url)
-        .then((json) => json['cast'])
+        .then((json) => json['results'])
         .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
   }
 
