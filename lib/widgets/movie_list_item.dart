@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/util/utils.dart';
 import 'package:movies_flutter/widgets/movie_detail.dart';
 
 class MovieListItem extends StatelessWidget {
@@ -31,7 +32,7 @@ class MovieListItem extends StatelessWidget {
                 new Container(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: new Text(
-                    movie.releaseDate,
+                    getGenreString(movie.genreIds),
                     style: new TextStyle(
                       color: Colors.grey[500],
                     ),

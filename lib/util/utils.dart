@@ -26,12 +26,15 @@ Map<int, String> genreMap = {
   37: 'Western'
 };
 
-List<String> getGenresForIds(List<int> genreIds) => genreIds.map((id) => genreMap[id]).toList();
+List<String> getGenresForIds(List<int> genreIds) =>
+    genreIds.map((id) => genreMap[id]).toList();
 
-String getGenreString(List<int> genreIds) =>
-    getGenresForIds(genreIds)
-        .fold(new StringBuffer(), (buffer, String value) => buffer.write(value))
-        .toString();
+String getGenreString(List<int> genreIds) {
+  StringBuffer buffer = new StringBuffer();
+  buffer.writeAll(getGenresForIds(genreIds), ", ");
+  return buffer.toString();
+}
+
 
 String formatNumberToDollars(int amount) => '\$${dollarFormat.format(amount)}';
 
