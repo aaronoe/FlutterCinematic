@@ -3,6 +3,8 @@ import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/movie.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
+import 'package:movies_flutter/widgets/bottom_gradient.dart';
+import 'package:movies_flutter/widgets/cast_card.dart';
 import 'package:movies_flutter/widgets/text_bubble.dart';
 
 
@@ -20,7 +22,7 @@ class MovieDetailWidget extends StatelessWidget {
         body: new CustomScrollView(
           slivers: <Widget>[
             _buildAppBar(_movie),
-            _buildContentSection(_movie)
+            _buildContentSection(_movie),
           ],
         )
     );
@@ -49,7 +51,6 @@ class MovieDetailWidget extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 
@@ -117,10 +118,10 @@ class MovieDetailWidget extends StatelessWidget {
                 child: new FutureBuilder(
                   future: _apiClient.getMovieCredits(movie.id),
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<CastMember>> snapshot) {
+                      AsyncSnapshot<List<Actor>> snapshot) {
                     return snapshot.hasData
                         ? new CastSection(snapshot.data)
-                        : new Text("Not Toll");
+                        : new CircularProgressIndicator();
                   },
                 ),
               ),
@@ -134,7 +135,7 @@ class MovieDetailWidget extends StatelessWidget {
 
 class CastSection extends StatelessWidget {
 
-  final List<CastMember> _cast;
+  final List<Actor> _cast;
 
   CastSection(this._cast);
 
@@ -145,107 +146,20 @@ class CastSection extends StatelessWidget {
       children: <Widget>[
         new Text("Cast", style: new TextStyle(color: Colors.white),),
         new Container(height: 8.0,),
-        _buildCastCard(_cast[0]),
-        /*
-        new Expanded(
-          child: new Container(
-            height: 140.0,
-            child: new CustomScrollView(
-              scrollDirection: Axis.horizontal,
-              slivers: <Widget>[
-                new SliverFixedExtentList(
-                    delegate: new SliverChildBuilderDelegate(
-                            (context, index) => _buildCastCard(_cast[index])
-                    ),
-                    itemExtent: 140.0
-                )
-              ],
-            ),
+        new Container(
+          height: 140.0,
+          child: new ListView(
+            scrollDirection: Axis.horizontal,
+            children: _cast.map((Actor actor) =>
+            new Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: new CastCard(actor),
+            )
+            ).toList(),
           ),
         )
-        new ListView.builder(
-            itemCount: _cast.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              CastMember actor = _cast[index];
-              return _buildCastCard(actor);
-            }
-        )
-        */
       ],
     );
   }
 
-  _buildCastCard(CastMember actor) {
-    return new Container(
-      height: 140.0,
-      width: 100.0,
-      child: new Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          new FadeInImage.assetNetwork(
-            placeholder: 'assets/placeholder.jpg',
-            image: actor.getProfilePicture(),
-            fit: BoxFit.cover,
-            height: 140.0,
-            width: 100.0,
-          ),
-          new BottomGradient.noOffset(),
-          new Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Text(actor.name, style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 10.0),),
-                new Container(height: 4.0,),
-                new Row(
-                  children: <Widget>[
-                    new Icon(Icons.person, color: salmon, size: 10.0,),
-                    new Container(width: 4.0,),
-                    new Text(actor.character, softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 8.0)
-                    ),
-                  ],
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
 }
-
-class BottomGradient extends StatelessWidget {
-
-  final double offset;
-
-  BottomGradient({this.offset: 0.95});
-
-  BottomGradient.noOffset() : offset = 1.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return new DecoratedBox(
-      decoration: new BoxDecoration(
-          gradient: new LinearGradient(
-            end: const FractionalOffset(0.0, 0.0),
-            begin: new FractionalOffset(0.0, offset),
-            colors: const <Color>[
-              const Color(0xff222128),
-              const Color(0x442C2B33),
-              const Color(0x002C2B33)
-            ],
-          )
-      ),
-    );
-  }
-}
-

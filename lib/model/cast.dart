@@ -1,13 +1,13 @@
-class CastMember {
+class Actor {
 
   String character;
   String name;
   String profilePicture;
 
   static final String imageUrl = "https://image.tmdb.org/t/p/w300/";
-  String getProfilePicture() => imageUrl + profilePicture;
+  String getProfilePicture() => imageUrl + (profilePicture != null ? profilePicture : "");
 
-  CastMember.fromJson(Map jsonMap)
+  Actor.fromJson(Map jsonMap)
       :
         character = jsonMap['character'],
         name = jsonMap['name'],
