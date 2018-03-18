@@ -5,6 +5,7 @@ import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/widgets/bottom_gradient.dart';
 import 'package:movies_flutter/widgets/cast_card.dart';
+import 'package:movies_flutter/widgets/meta_section.dart';
 import 'package:movies_flutter/widgets/text_bubble.dart';
 
 
@@ -121,6 +122,20 @@ class MovieDetailWidget extends StatelessWidget {
                       AsyncSnapshot<List<Actor>> snapshot) {
                     return snapshot.hasData
                         ? new CastSection(snapshot.data)
+                        : new CircularProgressIndicator();
+                  },
+                ),
+              ),
+            ),
+            new Container(
+              decoration: new BoxDecoration(color: primaryDark),
+              child: new Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: new FutureBuilder(
+                  future: _apiClient.getMovieDetails(movie.id),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    return snapshot.hasData
+                        ? new MetaSection(snapshot.data)
                         : new CircularProgressIndicator();
                   },
                 ),
