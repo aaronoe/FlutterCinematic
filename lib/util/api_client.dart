@@ -48,6 +48,16 @@ class ApiClient {
         .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
   }
 
+  Future<List<Movie>> getMoviesForActor(int actorId) async {
+    var url = new Uri.https(baseUrl, '3/person/$actorId/movie_credits', {
+      'api_key': API_KEY,
+    });
+
+    return _getJson(url)
+        .then((json) => json['cast'])
+        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+  }
+
   Future<List<Actor>> getMovieCredits(int movieId) async {
     var url = new Uri.https(baseUrl, '3/movie/$movieId/credits', {
       'api_key': API_KEY

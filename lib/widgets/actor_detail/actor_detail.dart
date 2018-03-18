@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
+import 'package:movies_flutter/model/movie.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
+import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 import 'package:movies_flutter/widgets/utilviews/fitted_circle_avatar.dart';
 
 
@@ -18,6 +20,7 @@ class ActorDetailScreen extends StatelessWidget {
         body: new CustomScrollView(
           slivers: <Widget>[
             _buildAppBar(context, _actor),
+            _buildMoviesSection(_actor)
           ],
         )
     );
@@ -41,7 +44,10 @@ class ActorDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Container(height: MediaQuery.of(context).padding.top,),
+              new Container(height: MediaQuery
+                  .of(context)
+                  .padding
+                  .top,),
               new Hero(
                   tag: 'Cast-Hero-${actor.id}',
                   child: new Container(
@@ -59,6 +65,28 @@ class ActorDetailScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildMoviesSection(Actor actor) {
+    return new SliverList(
+      delegate: new SliverChildListDelegate(
+          <Widget>[
+            new FutureBuilder(
+              future: _apiClient.getMoviesForActor(actor.id),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Movie>> snapshot) {
+                return snapshot.hasData
+                    ? new Column(children: snapshot.data.map((
+                    Movie movie) => new MovieListItem(movie)).toList())
+                    : new Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: new Center(child: new CircularProgressIndicator()),
+                    );
+              },
+            )
+          ]
       ),
     );
   }
