@@ -9,4 +9,3 @@ ios/.generated/
 packages
 .flutter-plugins
 /lib/util/constants.dart
-/lib/util/test.dart
