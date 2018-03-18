@@ -3,7 +3,6 @@ import 'package:movies_flutter/model/movie.dart';
 import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
-import 'package:movies_flutter/widgets/movie_detail.dart';
 
 class MovieListItem extends StatelessWidget {
 

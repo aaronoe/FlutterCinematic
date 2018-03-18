@@ -16,10 +16,18 @@ class MetaSection extends StatelessWidget {
         new Container(height: 8.0,),
         _getMetaInfoSection('Original Title', data['original_title']),
         _getMetaInfoSection('Status', data['status']),
-        _getMetaInfoSection('Runtime', formatRuntime(data['runtime'])),
+        data['runtime'] != null
+            ? _getMetaInfoSection('Runtime', formatRuntime(data['runtime']))
+            : new Container(),
         _getMetaInfoSection('Premiere', formatDate(data['release_date'])),
-        _getMetaInfoSection('Budget', formatNumberToDollars(data['budget'])),
-        _getMetaInfoSection('Revenue', formatNumberToDollars(data['revenue'])),
+        data['budget'] != null
+            ? _getMetaInfoSection(
+            'Budget', formatNumberToDollars(data['budget']))
+            : new Container(),
+        data['revenue'] != null
+            ? _getMetaInfoSection(
+            'Revenue', formatNumberToDollars(data['revenue']))
+            : new Container(),
         data['homepage'] != null
             ? _getMetaInfoSection('Homepage', data['homepage'], isLink: true)
             : new Container(),
@@ -33,7 +41,7 @@ class MetaSection extends StatelessWidget {
 
   Widget _getMetaInfoSection(String title, String content,
       {bool isLink: false}) {
-    if (content == null) return null;
+    if (content == null) return new Container();
 
     var contentSection = new Expanded(
       flex: 4,

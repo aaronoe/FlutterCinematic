@@ -135,7 +135,7 @@ class MovieDetailWidget extends StatelessWidget {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     return snapshot.hasData
                         ? new MetaSection(snapshot.data)
-                        : new Center(child: new CircularProgressIndicator());
+                        : new Container();
                   },
                 ),
               ),
@@ -148,7 +148,7 @@ class MovieDetailWidget extends StatelessWidget {
                     AsyncSnapshot<List<Movie>> snapshot) {
                   return snapshot.hasData
                       ? new SimilarSection(snapshot.data)
-                      : new Center(child: new CircularProgressIndicator());
+                      : new Container();
                 },
               ),
             )
