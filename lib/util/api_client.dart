@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/util/constants.dart';
 
 class ApiClient {
 
@@ -12,7 +13,6 @@ class ApiClient {
 
   ApiClient._internal();
 
-  final _key = "";
   final String baseUrl = 'api.themoviedb.org';
 
   static ApiClient get() {
@@ -29,7 +29,7 @@ class ApiClient {
   Future<List<Movie>> pollMovies(
       {int page: 1, String category: "popular"}) async {
     var url = new Uri.https(baseUrl, '3/movie/$category', {
-      'api_key': _key,
+      'api_key': API_KEY,
       'page': page.toString()
     });
 
@@ -40,7 +40,7 @@ class ApiClient {
 
   Future<List<CastMember>> getMovieCredits(int movieId) async {
     var url = new Uri.https(baseUrl, '3/movie/$movieId/credits', {
-      'api_key': _key
+      'api_key': API_KEY
     });
 
     return _getJson(url)
