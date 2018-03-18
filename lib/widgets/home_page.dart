@@ -17,7 +17,9 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(),
+      appBar: new AppBar(
+        title: new Text("Cinematic"),
+      ),
       drawer: new Drawer(
         child: new ListView(
           children: <Widget>[
