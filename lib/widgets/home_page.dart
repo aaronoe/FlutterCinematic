@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_flutter/widgets/movie_list.dart';
+import 'package:movies_flutter/widgets/movie_list/movie_list.dart';
 
 
 class HomePage extends StatefulWidget {

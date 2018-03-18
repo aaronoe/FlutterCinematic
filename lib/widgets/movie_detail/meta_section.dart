@@ -10,7 +10,10 @@ class MetaSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        new Text("About", style: new TextStyle(color: Colors.white),),
+        new Container(height: 8.0,),
         _getMetaInfoSection('Original Title', data['original_title']),
         _getMetaInfoSection('Status', data['status']),
         _getMetaInfoSection('Runtime', formatRuntime(data['runtime'])),

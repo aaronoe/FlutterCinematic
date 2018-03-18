@@ -2,7 +2,7 @@ import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/movie.dart';
 import 'package:movies_flutter/util/api_client.dart';
-import 'package:movies_flutter/widgets/movie_list_item.dart';
+import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
 
 class MovieList extends StatefulWidget {

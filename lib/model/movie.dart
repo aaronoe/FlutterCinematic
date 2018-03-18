@@ -10,8 +10,10 @@ class Movie {
   List<int> genreIds;
 
   static final String imageUrl = "https://image.tmdb.org/t/p/w500/";
+  static final String imageUrlMedium = "https://image.tmdb.org/t/p/w300/";
 
   String getBackDropUrl() => imageUrl + backdropPath;
+  String getPosterUrl() => imageUrlMedium + posterPath;
 
   int getReleaseYear() =>
       DateTime

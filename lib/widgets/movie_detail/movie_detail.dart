@@ -3,10 +3,11 @@ import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/movie.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
-import 'package:movies_flutter/widgets/bottom_gradient.dart';
-import 'package:movies_flutter/widgets/cast_card.dart';
-import 'package:movies_flutter/widgets/meta_section.dart';
-import 'package:movies_flutter/widgets/text_bubble.dart';
+import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
+import 'package:movies_flutter/widgets/movie_detail/cast_section.dart';
+import 'package:movies_flutter/widgets/movie_detail/meta_section.dart';
+import 'package:movies_flutter/widgets/movie_detail/similar_section.dart';
+import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 
 
 class MovieDetailWidget extends StatelessWidget {
@@ -138,40 +139,21 @@ class MovieDetailWidget extends StatelessWidget {
                   },
                 ),
               ),
+            ),
+            new Container(
+              decoration: new BoxDecoration(color: primary),
+              child: new FutureBuilder(
+                future: _apiClient.getSimilarMovies(movie.id),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Movie>> snapshot) {
+                  return snapshot.hasData
+                      ? new SimilarSection(snapshot.data)
+                      : new Center(child: new CircularProgressIndicator());
+                },
+              ),
             )
           ]
       ),
-    );
-  }
-
-}
-
-class CastSection extends StatelessWidget {
-
-  final List<Actor> _cast;
-
-  CastSection(this._cast);
-
-  @override
-  Widget build(BuildContext context) {
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        new Text("Cast", style: new TextStyle(color: Colors.white),),
-        new Container(height: 8.0,),
-        new Container(
-          height: 140.0,
-          child: new ListView(
-            scrollDirection: Axis.horizontal,
-            children: _cast.map((Actor actor) =>
-            new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: new CastCard(actor),
-            )
-            ).toList(),
-          ),
-        )
-      ],
     );
   }
 

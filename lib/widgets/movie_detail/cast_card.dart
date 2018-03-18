@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/util/styles.dart';
-import 'package:movies_flutter/widgets/bottom_gradient.dart';
+import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 
 
 class CastCard extends StatelessWidget {

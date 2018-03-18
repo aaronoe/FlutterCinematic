@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
 import 'package:movies_flutter/widgets/movie_detail.dart';
@@ -69,16 +70,7 @@ class MovieListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          new PageRouteBuilder(
-              transitionsBuilder: (context, animation, secondaryAnimation,
-                  child) =>
-              new FadeTransition(opacity: animation, child: child),
-              pageBuilder: (BuildContext context, Animation animation,
-                  Animation secondaryAnimation) {
-                return new MovieDetailWidget(movie);
-              }),
-        );
+        goToMovieDetails(context, movie);
       },
       child: new Card(
         child: new Column(
