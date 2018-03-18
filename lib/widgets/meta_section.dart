@@ -19,10 +19,11 @@ class MetaSection extends StatelessWidget {
         _getMetaInfoSection('Revenue', formatNumberToDollars(data['revenue'])),
         data['homepage'] != null
             ? _getMetaInfoSection('Homepage', data['homepage'], isLink: true)
-            : null,
+            : new Container(),
         data['imdb_id'] != null
             ? _getMetaInfoSection(
-            'Imdb', getImdbUrl(data['imdb_id']), isLink: true) : null
+            'Imdb', getImdbUrl(data['imdb_id']), isLink: true)
+            : new Container()
       ],
     );
   }

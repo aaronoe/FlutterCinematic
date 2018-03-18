@@ -7,6 +7,7 @@ class Movie {
   String backdropPath;
   String overview;
   String releaseDate;
+  List<int> genreIds;
 
   static final String imageUrl = "https://image.tmdb.org/t/p/w500/";
 
@@ -25,6 +26,7 @@ class Movie {
         posterPath = jsonMap["poster_path"],
         backdropPath = jsonMap["backdrop_path"],
         overview = jsonMap["overview"],
-        releaseDate = jsonMap["release_date"];
+        releaseDate = jsonMap["release_date"],
+        genreIds = jsonMap["genre_ids"];
 
 }

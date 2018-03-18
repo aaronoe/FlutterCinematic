@@ -33,7 +33,6 @@ class MovieDetailWidget extends StatelessWidget {
     return new SliverAppBar(
       expandedHeight: 220.0,
       pinned: true,
-      floating: true,
       flexibleSpace: new FlexibleSpaceBar(
         background: new Stack(
           fit: StackFit.expand,
