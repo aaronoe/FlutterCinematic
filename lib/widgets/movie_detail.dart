@@ -31,7 +31,7 @@ class MovieDetailWidget extends StatelessWidget {
 
   Widget _buildAppBar(Movie movie) {
     return new SliverAppBar(
-      expandedHeight: 220.0,
+      expandedHeight: 240.0,
       pinned: true,
       flexibleSpace: new FlexibleSpaceBar(
         background: new Stack(
@@ -41,7 +41,6 @@ class MovieDetailWidget extends StatelessWidget {
               tag: "Movie-Tag-${_movie.id}",
               child: new FadeInImage.assetNetwork(
                   fit: BoxFit.cover,
-                  height: 180.0,
                   width: double.INFINITY,
                   placeholder: "assets/placeholder.jpg",
                   image: _movie.getBackDropUrl()),
@@ -121,7 +120,7 @@ class MovieDetailWidget extends StatelessWidget {
                       AsyncSnapshot<List<Actor>> snapshot) {
                     return snapshot.hasData
                         ? new CastSection(snapshot.data)
-                        : new CircularProgressIndicator();
+                        : new Center(child: new CircularProgressIndicator());
                   },
                 ),
               ),
@@ -135,7 +134,7 @@ class MovieDetailWidget extends StatelessWidget {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     return snapshot.hasData
                         ? new MetaSection(snapshot.data)
-                        : new CircularProgressIndicator();
+                        : new Center(child: new CircularProgressIndicator());
                   },
                 ),
               ),
