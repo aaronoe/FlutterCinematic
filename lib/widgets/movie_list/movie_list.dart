@@ -57,13 +57,8 @@ class _MovieListState extends State<MovieList> {
         }
     );
 
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(widget.title),
-        ),
-        body: new Center(
+        return new Center(
             child: _asyncLoader
-        )
     );
   }
 }

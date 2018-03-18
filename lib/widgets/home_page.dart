@@ -17,6 +17,58 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: new AppBar(),
+      drawer: new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text("Aaron Oertel"),
+              accountEmail: new Text("aaronoe97@gmail.com"),
+              decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [
+                        const Color(0xff2b5876),
+                        const Color(0xff4e4376),
+                      ]
+                  )
+              ),
+              currentAccountPicture: new CircleAvatar(
+                backgroundImage: new NetworkImage(
+                    'https://lh3.googleusercontent.com/FY6e3irMirjwH-I7OWBL62XJcTgkNdXvMcDLzyyuJ3ZjtEqE31FKeFrVcwkFqwnR_FtTSdauTsBXxw=s529-rw-no'),),
+            ),
+            new ListTile(
+              title: new Text("Popular"),
+              trailing: new Icon(Icons.thumb_up),
+              onTap: () {
+                _navigationTapped(0);
+                Navigator.of(context).pop();
+              },
+            ),
+            new ListTile(
+              title: new Text("Upcoming"),
+              trailing: new Icon(Icons.update),
+              onTap: () {
+                _navigationTapped(1);
+                Navigator.of(context).pop();
+              },
+            ),
+            new ListTile(
+              title: new Text("Top Rated"),
+              trailing: new Icon(Icons.star),
+              onTap: () {
+                _navigationTapped(2);
+                Navigator.of(context).pop();
+              },
+            ),
+            new Divider(height: 5.0,),
+            new ListTile(
+              title: new Text("Close"),
+              trailing: new Icon(Icons.close),
+              onTap: () => Navigator.of(context).pop(),
+            )
+          ],
+        ),
+      ),
       body: new PageView(
         children: <Widget>[
           new MovieList(title: 'Popular', category: 'popular'),
