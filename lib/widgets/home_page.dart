@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list.dart';
 
@@ -21,8 +22,8 @@ class HomePageState extends State<HomePage> {
       appBar: new AppBar(
         actions: <Widget>[
           new IconButton(
-              icon: new Icon(Icons.search, color: Colors.white),
-              onPressed: () => goToSearch(context),
+            icon: new Icon(Icons.search, color: Colors.white),
+            onPressed: () => goToSearch(context),
           )
         ],
         title: new Text("Cinematic"),
@@ -80,9 +81,9 @@ class HomePageState extends State<HomePage> {
       ),
       body: new PageView(
         children: <Widget>[
-          new MovieList(title: 'Popular', category: 'popular'),
-          new MovieList(title: 'Upcoming', category: 'upcoming'),
-          new MovieList(title: 'Top Rated', category: 'top_rated'),
+          new MovieList(new MovieProvider("popular"), title: 'Popular'),
+          new MovieList(new MovieProvider("upcoming"), title: 'Upcoming'),
+          new MovieList(new MovieProvider("top_rated"), title: 'Top Rated'),
         ],
         pageSnapping: true,
         controller: _pageController,

@@ -34,7 +34,7 @@ class MediaItem {
         posterPath = jsonMap["poster_path"],
         backdropPath = jsonMap["backdrop_path"],
         overview = jsonMap["overview"],
-        releaseDate = jsonMap["release_date"],
+        releaseDate = jsonMap[(type == MediaType.movie ? "release_date" : "first_air_date")],
         genreIds = jsonMap["genre_ids"];
 
 

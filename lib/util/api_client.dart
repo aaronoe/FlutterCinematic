@@ -25,7 +25,7 @@ class ApiClient {
     return JSON.decode(transformedResponse);
   }
 
-  Future<List<MediaItem>> pollMovies(
+  Future<List<MediaItem>> fetchMovies(
       {int page: 1, String category: "popular"}) async {
     var url = new Uri.https(baseUrl, '3/movie/$category', {
       'api_key': API_KEY,
