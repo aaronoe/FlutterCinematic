@@ -20,10 +20,9 @@ class ApiClient {
   }
 
   Future<dynamic> _getJson(Uri uri) async {
-    return _http.getUrl(uri)
-        .then((request) => request.close())
-        .then((response) => response.transform(UTF8.decoder).join())
-        .then((responseBody) => JSON.decode(responseBody));
+    var response = await (await _http.getUrl(uri)).close();
+    var transformedResponse = await response.transform(UTF8.decoder).join();
+    return JSON.decode(transformedResponse);
   }
 
   Future<List<Movie>> pollMovies(
