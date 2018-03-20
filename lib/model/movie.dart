@@ -1,3 +1,5 @@
+import 'package:movies_flutter/util/utils.dart';
+
 class Movie {
 
   int id;
@@ -9,11 +11,9 @@ class Movie {
   String releaseDate;
   List<int> genreIds;
 
-  static final String imageUrl = "https://image.tmdb.org/t/p/w500/";
-  static final String imageUrlMedium = "https://image.tmdb.org/t/p/w300/";
+  String getBackDropUrl() => getLargePictureUrl(backdropPath);
 
-  String getBackDropUrl() => imageUrl + backdropPath;
-  String getPosterUrl() => imageUrlMedium + posterPath;
+  String getPosterUrl() => getMediumPictureUrl(posterPath);
 
   int getReleaseYear() =>
       DateTime

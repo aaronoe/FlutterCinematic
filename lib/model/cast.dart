@@ -1,3 +1,5 @@
+import 'package:movies_flutter/util/utils.dart';
+
 class Actor {
 
   String character;
@@ -5,10 +7,8 @@ class Actor {
   String profilePicture;
   int id;
 
-  static final String imageUrl = "https://image.tmdb.org/t/p/w300/";
-
   String getProfilePicture() =>
-      imageUrl + (profilePicture != null ? profilePicture : "");
+      getMediumPictureUrl((profilePicture != null ? profilePicture : ""));
 
   Actor.fromJson(Map jsonMap)
       :
