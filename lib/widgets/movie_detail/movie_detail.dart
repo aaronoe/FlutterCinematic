@@ -10,12 +10,12 @@ import 'package:movies_flutter/widgets/movie_detail/similar_section.dart';
 import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 
 
-class MovieDetailWidget extends StatelessWidget {
+class MovieDetailScreen extends StatelessWidget {
 
   final Movie _movie;
   final ApiClient _apiClient = ApiClient.get();
 
-  MovieDetailWidget(this._movie);
+  MovieDetailScreen(this._movie);
 
   @override
   Widget build(BuildContext context) {

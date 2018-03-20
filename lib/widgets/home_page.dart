@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list.dart';
 
 
@@ -18,6 +19,12 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        actions: <Widget>[
+          new IconButton(
+              icon: new Icon(Icons.search, color: Colors.white),
+              onPressed: () => goToSearch(context),
+          )
+        ],
         title: new Text("Cinematic"),
       ),
       drawer: new Drawer(
