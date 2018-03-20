@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
@@ -12,7 +12,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchPageState extends State<SearchScreen> {
 
   ApiClient _apiClient = ApiClient.get();
-  List<Movie> _resultList;
+  List<MediaItem> _resultList;
   SearchBar searchBar;
 
   _SearchPageState() {
@@ -26,7 +26,7 @@ class _SearchPageState extends State<SearchScreen> {
 
   void _onSubmitted(String text) async {
     try {
-      List<Movie> movies = await _apiClient.getSearchResults(text);
+      List<MediaItem> movies = await _apiClient.getSearchResults(text);
       if (movies != null) setState(() => _resultList = movies);
     } catch (Exception) {}
   }

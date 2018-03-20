@@ -1,6 +1,6 @@
 import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
@@ -17,21 +17,18 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
 
-  var key = "de2c61fd451b50de11cee234a5d8346b";
   final GlobalKey<AsyncLoaderState> _asyncLoaderState =
   new GlobalKey<AsyncLoaderState>();
-
-  List<Movie> _movies;
+  List<MediaItem> _movies;
   int _pageNumber = 1;
 
   _loadNextPage() async {
     _pageNumber++;
     try {
-      var nextMovies = await ApiClient.get().pollMovies(page: _pageNumber);
+      var nextMovies = await ApiClient.get().pollMovies(
+          page: _pageNumber, category: this.widget.category);
       _movies.addAll(nextMovies);
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   @override
@@ -57,8 +54,8 @@ class _MovieListState extends State<MovieList> {
         }
     );
 
-        return new Center(
-            child: _asyncLoader
+    return new Center(
+        child: _asyncLoader
     );
   }
 }

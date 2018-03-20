@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/navigator.dart';
 
 
 class SimilarSection extends StatelessWidget {
-  final List<Movie> _similarMovies;
+  final List<MediaItem> _similarMovies;
 
   SimilarSection(this._similarMovies);
 
@@ -24,7 +24,7 @@ class SimilarSection extends StatelessWidget {
             crossAxisCount: 2,
             childAspectRatio: 1.5,
             scrollDirection: Axis.horizontal,
-            children: _similarMovies.map((Movie movie) =>
+            children: _similarMovies.map((MediaItem movie) =>
             new GestureDetector(
               onTap: () => goToMovieDetails(context, movie),
               child: new FadeInImage.assetNetwork(

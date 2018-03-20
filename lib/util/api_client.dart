@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movies_flutter/model/cast.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/constants.dart';
 
 class ApiClient {
@@ -25,7 +25,7 @@ class ApiClient {
     return JSON.decode(transformedResponse);
   }
 
-  Future<List<Movie>> pollMovies(
+  Future<List<MediaItem>> pollMovies(
       {int page: 1, String category: "popular"}) async {
     var url = new Uri.https(baseUrl, '3/movie/$category', {
       'api_key': API_KEY,
@@ -34,20 +34,22 @@ class ApiClient {
 
     return _getJson(url)
         .then((json) => json['results'])
-        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<Movie>> getSimilarMovies(int movieId) async {
+  Future<List<MediaItem>> getSimilarMovies(int movieId) async {
     var url = new Uri.https(baseUrl, '3/movie/$movieId/similar', {
       'api_key': API_KEY,
     });
 
     return _getJson(url)
         .then((json) => json['results'])
-        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<Movie>> getMoviesForActor(int actorId) async {
+  Future<List<MediaItem>> getMoviesForActor(int actorId) async {
     var url = new Uri.https(
         baseUrl, '3/discover/movie',
         {
@@ -58,7 +60,8 @@ class ApiClient {
 
     return _getJson(url)
         .then((json) => json['results'])
-        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
   Future<List<Actor>> getMovieCredits(int movieId) async {
@@ -79,7 +82,7 @@ class ApiClient {
     return _getJson(url);
   }
 
-  Future<List<Movie>> getSearchResults(String query) {
+  Future<List<MediaItem>> getSearchResults(String query) {
     var url = new Uri.https(baseUrl, '3/search/movie', {
       'api_key': API_KEY,
       'query': query
@@ -87,7 +90,21 @@ class ApiClient {
 
     return _getJson(url)
         .then((json) =>
-        json['results'].map((item) => new Movie.fromJson(item)).toList());
+        json['results']
+            .map((item) => new MediaItem(item, MediaType.movie))
+            .toList());
   }
 
+  Future<List<MediaItem>> fetchShows(
+      {int page: 1, String category: "popular"}) async {
+    var url = new Uri.https(baseUrl, '3/tv/$category', {
+      'api_key': API_KEY,
+      'page': page.toString()
+    });
+
+    return _getJson(url)
+        .then((json) => json['results'])
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.show)).toList());
+  }
 }

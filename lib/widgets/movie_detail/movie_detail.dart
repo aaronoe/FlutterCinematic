@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
@@ -12,7 +12,7 @@ import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 
 class MovieDetailScreen extends StatelessWidget {
 
-  final Movie _movie;
+  final MediaItem _movie;
   final ApiClient _apiClient = ApiClient.get();
 
   MovieDetailScreen(this._movie);
@@ -30,7 +30,7 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(Movie movie) {
+  Widget _buildAppBar(MediaItem movie) {
     return new SliverAppBar(
       expandedHeight: 240.0,
       pinned: true,
@@ -55,7 +55,7 @@ class MovieDetailScreen extends StatelessWidget {
   }
 
 
-  Widget _buildMetaSection(Movie movie) {
+  Widget _buildMetaSection(MediaItem movie) {
     return new Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: new Column(
@@ -89,7 +89,7 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContentSection(Movie movie) {
+  Widget _buildContentSection(MediaItem movie) {
     return new SliverList(
       delegate: new SliverChildListDelegate(
           <Widget>[
@@ -145,7 +145,7 @@ class MovieDetailScreen extends StatelessWidget {
               child: new FutureBuilder(
                 future: _apiClient.getSimilarMovies(movie.id),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<Movie>> snapshot) {
+                    AsyncSnapshot<List<MediaItem>> snapshot) {
                   return snapshot.hasData
                       ? new SimilarSection(snapshot.data)
                       : new Container();

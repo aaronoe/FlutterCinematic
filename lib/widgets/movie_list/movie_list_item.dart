@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
@@ -8,7 +8,7 @@ class MovieListItem extends StatelessWidget {
 
   MovieListItem(this.movie);
 
-  final Movie movie;
+  final MediaItem movie;
 
   Widget _getTitleSection() {
     return new Container(
