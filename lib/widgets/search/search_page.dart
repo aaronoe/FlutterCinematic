@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
+import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/util/api_client.dart';
+import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -8,8 +11,9 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchPageState extends State<SearchScreen> {
 
+  ApiClient _apiClient = ApiClient.get();
+  List<Movie> _resultList;
   SearchBar searchBar;
-  String query;
 
   _SearchPageState() {
     searchBar = new SearchBar(
@@ -20,17 +24,24 @@ class _SearchPageState extends State<SearchScreen> {
     );
   }
 
-  void _onSubmitted(String text) {
-    setState(() => query = text);
+  void _onSubmitted(String text) async {
+    try {
+      List<Movie> movies = await _apiClient.getSearchResults(text);
+      if (movies != null) setState(() => _resultList = movies);
+    } catch (Exception) {}
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: searchBar.build(context),
-      body: query == null
-          ? new Center(child: new Text("Enter your query"))
-          : new Center(child: new Text("Query: $query"),),
+        appBar: searchBar.build(context),
+        body: (_resultList == null || _resultList.length == 0)
+            ? new Center(child: new Text("Enter your query"))
+            : new ListView.builder(
+            itemCount: _resultList.length,
+            itemBuilder: (BuildContext context, int index) =>
+            new MovieListItem(_resultList[index])
+        )
     );
   }
 

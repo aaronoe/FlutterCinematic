@@ -80,4 +80,15 @@ class ApiClient {
     return _getJson(url);
   }
 
+  Future<List<Movie>> getSearchResults(String query) {
+    var url = new Uri.https(baseUrl, '3/search/movie', {
+      'api_key': API_KEY,
+      'query': query
+    });
+
+    return _getJson(url)
+        .then((json) =>
+        json['results'].map((item) => new Movie.fromJson(item)).toList());
+  }
+
 }
