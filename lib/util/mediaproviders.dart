@@ -29,7 +29,7 @@ class MovieProvider extends MediaProvider {
 
   @override
   Future<List<MediaItem>> getSimilar(int mediaId) {
-    return _apiClient.getSimilarMovies(mediaId, type: "movie");
+    return _apiClient.getSimilarMedia(mediaId, type: "movie");
   }
 
   @override
@@ -59,7 +59,7 @@ class ShowProvider extends MediaProvider {
 
   @override
   Future<List<MediaItem>> getSimilar(int mediaId) {
-    return _apiClient.getSimilarMovies(mediaId, type: "tv");
+    return _apiClient.getSimilarMedia(mediaId, type: "tv");
   }
 
   @override

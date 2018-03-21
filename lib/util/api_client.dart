@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/model/tvseason.dart';
 import 'package:movies_flutter/util/constants.dart';
 
 class ApiClient {
@@ -38,7 +39,7 @@ class ApiClient {
         data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<MediaItem>> getSimilarMovies(int mediaId,
+  Future<List<MediaItem>> getSimilarMedia(int mediaId,
       {String type: "movie"}) async {
     var url = new Uri.https(baseUrl, '3/$type/$mediaId/similar', {
       'api_key': API_KEY,
@@ -85,6 +86,11 @@ class ApiClient {
     });
 
     return _getJson(url);
+  }
+
+  Future<List<TvSeason>> getShowSeasons(int showId) async {
+    var detailJson = await getMediaDetails(showId, type: 'tv');
+    return detailJson['seasons'].map((item) => new TvSeason.fromMap(item)).toList();
   }
 
   Future<List<MediaItem>> getSearchResults(String query) {

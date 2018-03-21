@@ -1,6 +1,8 @@
+import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/widgets/movie_detail/cast_section.dart';
@@ -14,6 +16,7 @@ class MovieDetailScreen extends StatelessWidget {
 
   final MediaItem _mediaItem;
   final MediaProvider provider;
+  final ApiClient _apiClient = ApiClient.get();
 
   MovieDetailScreen(this._mediaItem, this.provider);
 
@@ -140,6 +143,19 @@ class MovieDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
+            (_mediaItem.type == MediaType.show)
+                ? new Container(
+              decoration: new BoxDecoration(color: primary),
+              child: new AsyncLoader(
+                  initState: () async =>
+                  await _apiClient.getShowSeasons(_mediaItem.id),
+                  renderLoad: () => new CircularProgressIndicator(),
+                  renderError: ([error]) =>
+                  new Text('Sorry, couldn\'t load seasons.'),
+                  renderSuccess: ({data}) => null
+              ),
+            )
+                : new Container(),
             new Container(
               decoration: new BoxDecoration(color: primary),
               child: new FutureBuilder(
