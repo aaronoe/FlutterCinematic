@@ -5,17 +5,17 @@ import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
 
-class MovieList extends StatefulWidget {
-  MovieList(this.provider, {Key key, this.title}) : super(key: key);
+class MediaList extends StatefulWidget {
+  MediaList(this.provider, {Key key})
+      : super(key: key);
 
-  final String title;
   final MediaProvider provider;
 
   @override
-  _MovieListState createState() => new _MovieListState();
+  _MediaListState createState() => new _MediaListState();
 }
 
-class _MovieListState extends State<MovieList> {
+class _MediaListState extends State<MediaList> {
 
   final GlobalKey<AsyncLoaderState> _asyncLoaderState =
   new GlobalKey<AsyncLoaderState>();
