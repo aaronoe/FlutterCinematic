@@ -44,6 +44,14 @@ String getGenreString(List<int> genreIds) {
   return buffer.toString();
 }
 
+String concatListToString(List<Map> data, String mapKey) {
+  StringBuffer buffer = new StringBuffer();
+  buffer.writeAll(data.map((Map map) => map[mapKey]), ", ");
+  return buffer.toString();
+}
+
+String formatSeasonsAndEpisodes(int numberOfSeasons, int numberOfEpisodes) =>
+    '$numberOfSeasons Seasons and $numberOfEpisodes Episodes';
 
 String formatNumberToDollars(int amount) => '\$${dollarFormat.format(amount)}';
 

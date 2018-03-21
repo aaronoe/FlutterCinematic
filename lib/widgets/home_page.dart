@@ -53,6 +53,7 @@ class HomePageState extends State<HomePage> {
             ),
             new ListTile(
               title: new Text("Movies"),
+              selected: mediaType == MediaType.movie,
               trailing: new Icon(Icons.local_movies),
               onTap: () {
                 _changeMediaType(MediaType.movie);
@@ -61,6 +62,7 @@ class HomePageState extends State<HomePage> {
             ),
             new ListTile(
               title: new Text("TV Shows"),
+              selected: mediaType == MediaType.show,
               trailing: new Icon(Icons.live_tv),
               onTap: () {
                 _changeMediaType(MediaType.show);
