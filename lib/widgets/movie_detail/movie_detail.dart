@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
-import 'package:movies_flutter/util/api_client.dart';
+import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/styles.dart';
-import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 import 'package:movies_flutter/widgets/movie_detail/cast_section.dart';
 import 'package:movies_flutter/widgets/movie_detail/meta_section.dart';
 import 'package:movies_flutter/widgets/movie_detail/similar_section.dart';
+import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 
 
 class MovieDetailScreen extends StatelessWidget {
 
-  final MediaItem _movie;
-  final ApiClient _apiClient = ApiClient.get();
+  final MediaItem _mediaItem;
+  final MediaProvider provider;
 
-  MovieDetailScreen(this._movie);
+  MovieDetailScreen(this._mediaItem, this.provider);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class MovieDetailScreen extends StatelessWidget {
         backgroundColor: primary,
         body: new CustomScrollView(
           slivers: <Widget>[
-            _buildAppBar(_movie),
-            _buildContentSection(_movie),
+            _buildAppBar(_mediaItem),
+            _buildContentSection(_mediaItem),
           ],
         )
     );
@@ -39,12 +39,12 @@ class MovieDetailScreen extends StatelessWidget {
           fit: StackFit.expand,
           children: <Widget>[
             new Hero(
-              tag: "Movie-Tag-${_movie.id}",
+              tag: "Movie-Tag-${_mediaItem.id}",
               child: new FadeInImage.assetNetwork(
                   fit: BoxFit.cover,
                   width: double.INFINITY,
                   placeholder: "assets/placeholder.jpg",
-                  image: _movie.getBackDropUrl()),
+                  image: _mediaItem.getBackDropUrl()),
             ),
             new BottomGradient(),
             _buildMetaSection(movie)
@@ -89,7 +89,7 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContentSection(MediaItem movie) {
+  Widget _buildContentSection(MediaItem media) {
     return new SliverList(
       delegate: new SliverChildListDelegate(
           <Widget>[
@@ -104,7 +104,7 @@ class MovieDetailScreen extends StatelessWidget {
                     new Text(
                       "SYNOPSIS", style: const TextStyle(color: Colors.white),),
                     new Container(height: 8.0,),
-                    new Text(movie.overview, style: const TextStyle(
+                    new Text(media.overview, style: const TextStyle(
                         color: Colors.white, fontSize: 12.0)),
                     new Container(height: 8.0,),
                   ],
@@ -116,7 +116,7 @@ class MovieDetailScreen extends StatelessWidget {
               child: new Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: new FutureBuilder(
-                  future: _apiClient.getMovieCredits(movie.id),
+                  future: provider.loadCast(_mediaItem.id),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Actor>> snapshot) {
                     return snapshot.hasData
@@ -131,7 +131,7 @@ class MovieDetailScreen extends StatelessWidget {
               child: new Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: new FutureBuilder(
-                  future: _apiClient.getMovieDetails(movie.id),
+                  future: provider.getDetails(media.id),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     return snapshot.hasData
                         ? new MetaSection(snapshot.data)
@@ -143,7 +143,7 @@ class MovieDetailScreen extends StatelessWidget {
             new Container(
               decoration: new BoxDecoration(color: primary),
               child: new FutureBuilder(
-                future: _apiClient.getSimilarMovies(movie.id),
+                future: provider.getSimilar(media.id),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<MediaItem>> snapshot) {
                   return snapshot.hasData

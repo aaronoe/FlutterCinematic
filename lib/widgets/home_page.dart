@@ -18,6 +18,9 @@ class HomePageState extends State<HomePage> {
   int _page = 0;
   MediaType mediaType = MediaType.movie;
 
+  final MediaProvider movieProvider = new MovieProvider();
+  final MediaProvider showProvider = new ShowProvider();
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -121,20 +124,19 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  List<Widget> _movieList = <Widget>[
-    new MediaList(new MovieProvider("popular")),
-    new MediaList(new MovieProvider("upcoming")),
-    new MediaList(new MovieProvider("top_rated")),
-  ];
-
-  List<Widget> _showList = <Widget>[
-    new MediaList(new ShowProvider("popular")),
-    new MediaList(new ShowProvider("on_the_air")),
-    new MediaList(new ShowProvider("top_rated")),
-  ];
-
-  List<Widget> _getMediaList() =>
-      (mediaType == MediaType.movie) ? _movieList : _showList;
+  List<Widget> _getMediaList() {
+    return (mediaType == MediaType.movie)
+        ? <Widget>[
+      new MediaList(movieProvider, "popular"),
+      new MediaList(movieProvider, "upcoming"),
+      new MediaList(movieProvider, "top_rated"),
+    ]
+        : <Widget>[
+      new MediaList(showProvider, "popular"),
+      new MediaList(showProvider, "on_the_air"),
+      new MediaList(showProvider, "top_rated"),
+    ];
+  }
 
   void _navigationTapped(int page) {
     _pageController.animateToPage(

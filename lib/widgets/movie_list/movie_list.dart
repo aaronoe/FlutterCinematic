@@ -6,10 +6,11 @@ import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
 
 class MediaList extends StatefulWidget {
-  MediaList(this.provider, {Key key})
+  MediaList(this.provider, this.category, {Key key})
       : super(key: key);
 
   final MediaProvider provider;
+  final String category;
 
   @override
   _MediaListState createState() => new _MediaListState();
@@ -25,7 +26,7 @@ class _MediaListState extends State<MediaList> {
   _loadNextPage() async {
     _pageNumber++;
     try {
-      var nextMovies = await widget.provider.loadMedia(page: _pageNumber);
+      var nextMovies = await widget.provider.loadMedia(widget.category, page: _pageNumber);
       _movies.addAll(nextMovies);
     } catch (e) {}
   }
@@ -35,7 +36,7 @@ class _MediaListState extends State<MediaList> {
     var _asyncLoader = new AsyncLoader(
         key: _asyncLoaderState,
         initState: () async =>
-        await widget.provider.loadMedia(),
+        await widget.provider.loadMedia(widget.category),
         renderLoad: () => new CircularProgressIndicator(),
         renderError: ([error]) =>
         new Text('Sorry, there was an error loading your movie'),

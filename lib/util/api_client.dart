@@ -38,8 +38,8 @@ class ApiClient {
         data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<MediaItem>> getSimilarMovies(int movieId) async {
-    var url = new Uri.https(baseUrl, '3/movie/$movieId/similar', {
+  Future<List<MediaItem>> getSimilarMovies(int mediaId, {String type: "movie"}) async {
+    var url = new Uri.https(baseUrl, '3/$type/$mediaId/similar', {
       'api_key': API_KEY,
     });
 
@@ -64,8 +64,8 @@ class ApiClient {
         data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<Actor>> getMovieCredits(int movieId) async {
-    var url = new Uri.https(baseUrl, '3/movie/$movieId/credits', {
+  Future<List<Actor>> getMediaCredits(int mediaId, {String type: "movie"}) async {
+    var url = new Uri.https(baseUrl, '3/$type/$mediaId/credits', {
       'api_key': API_KEY
     });
 
@@ -74,8 +74,8 @@ class ApiClient {
         json['cast'].map((item) => new Actor.fromJson(item)).toList());
   }
 
-  Future<dynamic> getMovieDetails(int movieId) async {
-    var url = new Uri.https(baseUrl, '3/movie/$movieId', {
+  Future<dynamic> getMediaDetails(int mediaId, {String type: "movie"}) async {
+    var url = new Uri.https(baseUrl, '3/$type/$mediaId', {
       'api_key': API_KEY
     });
 
