@@ -196,8 +196,8 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
               child: new Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: _seasonList == null
-                      ? new Container(child: new CircularProgressIndicator(),)
-                      : new SeasonSection(_seasonList)
+                      ? new Container()
+                      : new SeasonSection(widget._mediaItem, _seasonList)
               ),
             )
                 : new Container(),

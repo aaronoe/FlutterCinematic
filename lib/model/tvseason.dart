@@ -10,7 +10,7 @@ class TvSeason {
   String posterPath;
   int seasonNumber;
 
-  String getPosterPath() => getMediumPictureUrl(posterPath);
+  String getPosterUrl() => getMediumPictureUrl(posterPath);
 
   int getReleaseYear() =>
       DateTime

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/model/tvseason.dart';
+import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 
@@ -9,12 +11,14 @@ class SeasonCard extends StatelessWidget {
   final double height;
   final double width;
   final TvSeason season;
+  final MediaItem show;
 
-  SeasonCard(this.season, {this.height: 140.0, this.width: 100.0});
+  SeasonCard(this.show, this.season, {this.height: 140.0, this.width: 100.0});
 
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
+      onTap: () => goToSeasonDetails(context, show, season),
       child: new Container(
         height: height,
         width: width,
@@ -25,7 +29,7 @@ class SeasonCard extends StatelessWidget {
               tag: 'Season-Hero-${season.id}',
               child: new FadeInImage.assetNetwork(
                 placeholder: 'assets/placeholder.jpg',
-                image: season.getPosterPath(),
+                image: season.getPosterUrl(),
                 fit: BoxFit.cover,
                 height: height,
                 width: width,
