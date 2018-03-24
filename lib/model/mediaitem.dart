@@ -31,8 +31,8 @@ class MediaItem {
         id = jsonMap["id"].toInt(),
         voteAverage = jsonMap["vote_average"].toDouble(),
         title = jsonMap[(type == MediaType.movie ? "title" : "name")],
-        posterPath = jsonMap["poster_path"],
-        backdropPath = jsonMap["backdrop_path"],
+        posterPath = jsonMap["poster_path"] ?? "",
+        backdropPath = jsonMap["backdrop_path"] ?? "",
         overview = jsonMap["overview"],
         releaseDate = jsonMap[(type == MediaType.movie ? "release_date" : "first_air_date")],
         genreIds = jsonMap["genre_ids"];

@@ -7,10 +7,10 @@ class TvSeason {
   int id;
   String name;
   String overview;
-  String postPath;
+  String posterPath;
   int seasonNumber;
 
-  String getPosterPath() => getMediumPictureUrl(postPath);
+  String getPosterPath() => getMediumPictureUrl(posterPath);
 
   int getReleaseYear() =>
       DateTime
@@ -28,7 +28,7 @@ class TvSeason {
         id = jsonMap['id'],
         name = jsonMap['name'],
         overview = jsonMap['overview'],
-        postPath = jsonMap['poster_path'],
+        posterPath = jsonMap['poster_path'] ?? "",
         seasonNumber = jsonMap['season_number'];
 
 }

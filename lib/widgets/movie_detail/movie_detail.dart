@@ -1,7 +1,7 @@
-import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/model/tvseason.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/styles.dart';
@@ -14,7 +14,7 @@ import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 
 
-class MovieDetailScreen extends StatelessWidget {
+class MovieDetailScreen extends StatefulWidget {
 
   final MediaItem _mediaItem;
   final MediaProvider provider;
@@ -23,13 +23,67 @@ class MovieDetailScreen extends StatelessWidget {
   MovieDetailScreen(this._mediaItem, this.provider);
 
   @override
+  MovieDetailScreenState createState() {
+    return new MovieDetailScreenState();
+  }
+
+}
+
+class MovieDetailScreenState extends State<MovieDetailScreen> {
+
+  List<Actor> _actorList;
+  List<TvSeason> _seasonList;
+  List<MediaItem> _similarMedia;
+  dynamic _mediaDetails;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCast();
+    _loadDetails();
+    if (widget._mediaItem.type == MediaType.show) _loadSeasons();
+    _loadSimilar();
+  }
+
+  void _loadCast() async {
+    try {
+      List<Actor> cast = await widget.provider.loadCast(widget._mediaItem.id);
+      setState(() => _actorList = cast);
+    } catch (e) {}
+  }
+
+  void _loadDetails() async {
+    try {
+      dynamic details = await widget.provider.getDetails(widget._mediaItem.id);
+      setState(() => _mediaDetails = details);
+    } catch (e) {}
+  }
+
+  void _loadSeasons() async {
+    try {
+      List<TvSeason> seasons =
+      await widget._apiClient.getShowSeasons(widget._mediaItem.id);
+      setState(() => _seasonList = seasons);
+    } catch (e) {}
+  }
+
+  void _loadSimilar() async {
+    try {
+      List<MediaItem> similar =
+      await widget.provider.getSimilar(widget._mediaItem.id);
+      setState(() => _similarMedia = similar);
+    } catch (e) {}
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
         backgroundColor: primary,
         body: new CustomScrollView(
           slivers: <Widget>[
-            _buildAppBar(_mediaItem),
-            _buildContentSection(_mediaItem),
+            _buildAppBar(widget._mediaItem),
+            _buildContentSection(widget._mediaItem),
           ],
         )
     );
@@ -44,12 +98,12 @@ class MovieDetailScreen extends StatelessWidget {
           fit: StackFit.expand,
           children: <Widget>[
             new Hero(
-              tag: "Movie-Tag-${_mediaItem.id}",
+              tag: "Movie-Tag-${widget._mediaItem.id}",
               child: new FadeInImage.assetNetwork(
                   fit: BoxFit.cover,
                   width: double.INFINITY,
                   placeholder: "assets/placeholder.jpg",
-                  image: _mediaItem.getBackDropUrl()),
+                  image: widget._mediaItem.getBackDropUrl()),
             ),
             new BottomGradient(),
             _buildMetaSection(movie)
@@ -121,62 +175,40 @@ class MovieDetailScreen extends StatelessWidget {
             new Container(
               decoration: new BoxDecoration(color: primary),
               child: new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new FutureBuilder(
-                  future: provider.loadCast(_mediaItem.id),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Actor>> snapshot) {
-                    return snapshot.hasData
-                        ? new CastSection(snapshot.data)
-                        : new Center(child: new CircularProgressIndicator());
-                  },
-                ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: _actorList == null
+                      ? new Center(child: new CircularProgressIndicator(),)
+                      : new CastSection(_actorList)
               ),
             ),
             new Container(
               decoration: new BoxDecoration(color: primaryDark),
               child: new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new FutureBuilder(
-                  future: provider.getDetails(media.id),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    return snapshot.hasData
-                        ? new MetaSection(snapshot.data)
-                        : new Container();
-                  },
-                ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: _mediaDetails == null
+                      ? new Center(child: new CircularProgressIndicator(),)
+                      : new MetaSection(_mediaDetails)
               ),
             ),
-            (_mediaItem.type == MediaType.show)
+            (widget._mediaItem.type == MediaType.show)
                 ? new Container(
               decoration: new BoxDecoration(color: primary),
               child: new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new AsyncLoader(
-                    initState: () async =>
-                    await _apiClient.getShowSeasons(_mediaItem.id),
-                    renderLoad: () => new CircularProgressIndicator(),
-                    renderError: ([error]) =>
-                    new Text('Sorry, couldn\'t load seasons.'),
-                    renderSuccess: ({data}) => new SeasonSection(data)
-                ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: _seasonList == null
+                      ? new Container(child: new CircularProgressIndicator(),)
+                      : new SeasonSection(_seasonList)
               ),
             )
                 : new Container(),
             new Container(
-              decoration: new BoxDecoration(
-                  color: (_mediaItem.type == MediaType.movie
-                      ? primary
-                      : primaryDark)),
-              child: new FutureBuilder(
-                future: provider.getSimilar(media.id),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<MediaItem>> snapshot) {
-                  return snapshot.hasData
-                      ? new SimilarSection(snapshot.data)
-                      : new Container();
-                },
-              ),
+                decoration: new BoxDecoration(
+                    color: (widget._mediaItem.type == MediaType.movie
+                        ? primary
+                        : primaryDark)),
+                child: _similarMedia == null
+                    ? new Container()
+                    : new SimilarSection(_similarMedia)
             )
           ]
       ),
