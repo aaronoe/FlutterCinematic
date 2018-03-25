@@ -14,28 +14,50 @@ class MetaSection extends StatelessWidget {
       children: <Widget>[
         new Text("About", style: new TextStyle(color: Colors.white),),
         new Container(height: 8.0,),
-        _getMetaInfoSection('Original Title', data['original_title']),
-        _getMetaInfoSection('Status', data['status']),
-        data['runtime'] != null
-            ? _getMetaInfoSection('Runtime', formatRuntime(data['runtime']))
+        _getSectionOrContainer('Original Title', 'original_title'),
+        _getSectionOrContainer('Original Title', 'original_name'),
+        _getSectionOrContainer('Status', 'status'),
+        _getSectionOrContainer(
+            'Runtime', 'runtime', formatterFunction: formatRuntime),
+        _getCollectionSectionOrContainer('Type', 'genres', 'name'),
+        _getCollectionSectionOrContainer('Creators', 'created_by', 'name'),
+        _getCollectionSectionOrContainer('Networks', 'networks', 'name'),
+        (data['number_of_seasons'] != null && data['number_of_episodes'] != null)
+            ? _getMetaInfoSection('Seasons', formatSeasonsAndEpisodes(
+            data['number_of_seasons'], data['number_of_episodes']))
             : new Container(),
-        _getMetaInfoSection('Premiere', formatDate(data['release_date'])),
-        data['budget'] != null
-            ? _getMetaInfoSection(
-            'Budget', formatNumberToDollars(data['budget']))
-            : new Container(),
-        data['revenue'] != null
-            ? _getMetaInfoSection(
-            'Revenue', formatNumberToDollars(data['revenue']))
-            : new Container(),
-        data['homepage'] != null
-            ? _getMetaInfoSection('Homepage', data['homepage'], isLink: true)
-            : new Container(),
-        data['imdb_id'] != null
-            ? _getMetaInfoSection(
-            'Imdb', getImdbUrl(data['imdb_id']), isLink: true)
-            : new Container()
+        _getSectionOrContainer(
+            'Premiere', 'release_date', formatterFunction: formatDate),
+        _getSectionOrContainer(
+            'Premiere', 'first_air_date', formatterFunction: formatDate),
+        _getSectionOrContainer('Latest/Next Episode', 'last_air_date',
+            formatterFunction: formatDate),
+        _getSectionOrContainer(
+            'Budget', 'budget', formatterFunction: formatNumberToDollars),
+        _getSectionOrContainer(
+            'Revenue', 'revenue', formatterFunction: formatNumberToDollars),
+        _getSectionOrContainer('Homepage', 'homepage', isLink: true),
+        _getSectionOrContainer(
+            'Imdb', 'imdb_id', formatterFunction: getImdbUrl, isLink: true),
       ],
+    );
+  }
+
+  Widget _getCollectionSectionOrContainer(String title, String listKey,
+      String mapKey) {
+    return data[listKey] == null
+        ? new Container()
+        : _getMetaInfoSection(title, concatListToString(data[listKey], mapKey));
+  }
+
+  Widget _getSectionOrContainer(String title, String content,
+      {dynamic formatterFunction, bool isLink: false}) {
+    return data[content] == null
+        ? new Container()
+        : _getMetaInfoSection(title,
+        (formatterFunction != null
+            ? formatterFunction(data[content])
+            : data[content]), isLink: isLink
     );
   }
 

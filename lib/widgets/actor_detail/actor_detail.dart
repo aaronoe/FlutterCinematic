@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
@@ -76,10 +76,10 @@ class ActorDetailScreen extends StatelessWidget {
             new FutureBuilder(
               future: _apiClient.getMoviesForActor(actor.id),
               builder: (BuildContext context,
-                  AsyncSnapshot<List<Movie>> snapshot) {
+                  AsyncSnapshot<List<MediaItem>> snapshot) {
                 return snapshot.hasData
                     ? new Column(children: snapshot.data.map((
-                    Movie movie) => new MovieListItem(movie)).toList())
+                    MediaItem movie) => new MovieListItem(movie)).toList())
                     : new Padding(
                       padding: const EdgeInsets.all(32.0),
                       child: new Center(child: new CircularProgressIndicator()),

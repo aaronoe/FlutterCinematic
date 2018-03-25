@@ -1,37 +1,34 @@
 import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_flutter/model/movie.dart';
-import 'package:movies_flutter/util/api_client.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
 
-class MovieList extends StatefulWidget {
-  MovieList({Key key, this.title, this.category}) : super(key: key);
+class MediaList extends StatefulWidget {
+  MediaList(this.provider, this.category, {Key key})
+      : super(key: key);
 
-  final String title;
+  final MediaProvider provider;
   final String category;
 
   @override
-  _MovieListState createState() => new _MovieListState();
+  _MediaListState createState() => new _MediaListState();
 }
 
-class _MovieListState extends State<MovieList> {
+class _MediaListState extends State<MediaList> {
 
-  var key = "de2c61fd451b50de11cee234a5d8346b";
   final GlobalKey<AsyncLoaderState> _asyncLoaderState =
   new GlobalKey<AsyncLoaderState>();
-
-  List<Movie> _movies;
+  List<MediaItem> _movies;
   int _pageNumber = 1;
 
   _loadNextPage() async {
     _pageNumber++;
     try {
-      var nextMovies = await ApiClient.get().pollMovies(page: _pageNumber);
+      var nextMovies = await widget.provider.loadMedia(widget.category, page: _pageNumber);
       _movies.addAll(nextMovies);
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   @override
@@ -39,7 +36,7 @@ class _MovieListState extends State<MovieList> {
     var _asyncLoader = new AsyncLoader(
         key: _asyncLoaderState,
         initState: () async =>
-        await ApiClient.get().pollMovies(category: this.widget.category),
+        await widget.provider.loadMedia(widget.category),
         renderLoad: () => new CircularProgressIndicator(),
         renderError: ([error]) =>
         new Text('Sorry, there was an error loading your movie'),
@@ -57,8 +54,8 @@ class _MovieListState extends State<MovieList> {
         }
     );
 
-        return new Center(
-            child: _asyncLoader
+    return new Center(
+        child: _asyncLoader
     );
   }
 }

@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movies_flutter/model/cast.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/episode.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/model/tvseason.dart';
 import 'package:movies_flutter/util/constants.dart';
 
 class ApiClient {
@@ -25,7 +27,7 @@ class ApiClient {
     return JSON.decode(transformedResponse);
   }
 
-  Future<List<Movie>> pollMovies(
+  Future<List<MediaItem>> fetchMovies(
       {int page: 1, String category: "popular"}) async {
     var url = new Uri.https(baseUrl, '3/movie/$category', {
       'api_key': API_KEY,
@@ -34,20 +36,26 @@ class ApiClient {
 
     return _getJson(url)
         .then((json) => json['results'])
-        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<Movie>> getSimilarMovies(int movieId) async {
-    var url = new Uri.https(baseUrl, '3/movie/$movieId/similar', {
+  Future<List<MediaItem>> getSimilarMedia(int mediaId,
+      {String type: "movie"}) async {
+    var url = new Uri.https(baseUrl, '3/$type/$mediaId/similar', {
       'api_key': API_KEY,
     });
 
     return _getJson(url)
         .then((json) => json['results'])
-        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+        .then((data) =>
+        data.map((item) =>
+        new MediaItem(
+            item, (type == "movie") ? MediaType.movie : MediaType.show))
+            .toList());
   }
 
-  Future<List<Movie>> getMoviesForActor(int actorId) async {
+  Future<List<MediaItem>> getMoviesForActor(int actorId) async {
     var url = new Uri.https(
         baseUrl, '3/discover/movie',
         {
@@ -58,11 +66,13 @@ class ApiClient {
 
     return _getJson(url)
         .then((json) => json['results'])
-        .then((data) => data.map((item) => new Movie.fromJson(item)).toList());
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
-  Future<List<Actor>> getMovieCredits(int movieId) async {
-    var url = new Uri.https(baseUrl, '3/movie/$movieId/credits', {
+  Future<List<Actor>> getMediaCredits(int mediaId,
+      {String type: "movie"}) async {
+    var url = new Uri.https(baseUrl, '3/$type/$mediaId/credits', {
       'api_key': API_KEY
     });
 
@@ -71,15 +81,22 @@ class ApiClient {
         json['cast'].map((item) => new Actor.fromJson(item)).toList());
   }
 
-  Future<dynamic> getMovieDetails(int movieId) async {
-    var url = new Uri.https(baseUrl, '3/movie/$movieId', {
+  Future<dynamic> getMediaDetails(int mediaId, {String type: "movie"}) async {
+    var url = new Uri.https(baseUrl, '3/$type/$mediaId', {
       'api_key': API_KEY
     });
 
     return _getJson(url);
   }
 
-  Future<List<Movie>> getSearchResults(String query) {
+  Future<List<TvSeason>> getShowSeasons(int showId) async {
+    var detailJson = await getMediaDetails(showId, type: 'tv');
+    return detailJson['seasons']
+        .map((item) => new TvSeason.fromMap(item))
+        .toList();
+  }
+
+  Future<List<MediaItem>> getSearchResults(String query) {
     var url = new Uri.https(baseUrl, '3/search/movie', {
       'api_key': API_KEY,
       'query': query
@@ -87,7 +104,33 @@ class ApiClient {
 
     return _getJson(url)
         .then((json) =>
-        json['results'].map((item) => new Movie.fromJson(item)).toList());
+        json['results']
+            .map((item) => new MediaItem(item, MediaType.movie))
+            .toList());
+  }
+
+  Future<List<MediaItem>> fetchShows(
+      {int page: 1, String category: "popular"}) async {
+    var url = new Uri.https(baseUrl, '3/tv/$category', {
+      'api_key': API_KEY,
+      'page': page.toString()
+    });
+
+    return _getJson(url)
+        .then((json) => json['results'])
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.show)).toList());
+  }
+
+  Future<List<Episode>> fetchEpisodes(int showId, int seasonNumber) {
+    var url = new Uri.https(baseUrl, '3/tv/$showId/season/$seasonNumber', {
+      'api_key': API_KEY,
+    });
+
+    return _getJson(url)
+        .then((json) => json['episodes'])
+        .then((data) =>
+        data.map((item) => new Episode.fromJson(item)).toList());
   }
 
 }

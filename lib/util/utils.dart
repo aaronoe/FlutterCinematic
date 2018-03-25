@@ -4,7 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 final dollarFormat = new NumberFormat("#,##0.00", "en_US");
 final sourceFormat = new DateFormat('yyyy-MM-dd');
 final dateFormat = new DateFormat.yMMMMd("en_US");
-Map<int, String> genreMap = {
+
+Map<int, String> _genreMap = {
   28: 'Action',
   12: 'Adventure',
   16: 'Animation',
@@ -13,6 +14,8 @@ Map<int, String> genreMap = {
   99: 'Documentary',
   18: 'Drama',
   10751: 'Family',
+  10762: 'Kids',
+  10759: 'Action & Adventure',
   14: 'Fantasy',
   36: 'History',
   27: 'Horror',
@@ -23,11 +26,17 @@ Map<int, String> genreMap = {
   10770: 'TV Movie',
   53: 'Thriller',
   10752: 'War',
-  37: 'Western'
+  37: 'Western',
+  10763: 'News',
+  10764: 'Reality',
+  10765: 'Sci-Fi & Fantasy',
+  10766: 'Soap',
+  10767: 'Talk',
+  10768: 'War & Politics',
 };
 
 List<String> getGenresForIds(List<int> genreIds) =>
-    genreIds.map((id) => genreMap[id]).toList();
+    genreIds.map((id) => _genreMap[id]).toList();
 
 String getGenreString(List<int> genreIds) {
   StringBuffer buffer = new StringBuffer();
@@ -35,6 +44,14 @@ String getGenreString(List<int> genreIds) {
   return buffer.toString();
 }
 
+String concatListToString(List<Map> data, String mapKey) {
+  StringBuffer buffer = new StringBuffer();
+  buffer.writeAll(data.map((Map map) => map[mapKey]), ", ");
+  return buffer.toString();
+}
+
+String formatSeasonsAndEpisodes(int numberOfSeasons, int numberOfEpisodes) =>
+    '$numberOfSeasons Seasons and $numberOfEpisodes Episodes';
 
 String formatNumberToDollars(int amount) => '\$${dollarFormat.format(amount)}';
 
@@ -65,4 +82,5 @@ final String _imageUrlLarge = "https://image.tmdb.org/t/p/w500/";
 final String _imageUrlMedium = "https://image.tmdb.org/t/p/w300/";
 
 String getMediumPictureUrl(String path) => _imageUrlMedium + path;
+
 String getLargePictureUrl(String path) => _imageUrlLarge + path;

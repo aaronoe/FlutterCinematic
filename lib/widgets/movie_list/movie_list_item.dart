@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_flutter/model/movie.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
@@ -8,7 +8,7 @@ class MovieListItem extends StatelessWidget {
 
   MovieListItem(this.movie);
 
-  final Movie movie;
+  final MediaItem movie;
 
   Widget _getTitleSection() {
     return new Container(
@@ -53,9 +53,11 @@ class MovieListItem extends StatelessWidget {
               new Container(height: 4.0,),
               new Row(
                 children: <Widget>[
-                  new Text(movie.getReleaseYear().toString(), style: captionStyle,),
+                  new Text(
+                    movie.getReleaseYear().toString(), style: captionStyle,),
                   new Container(width: 4.0,),
-                  new Icon(Icons.date_range, color: Colors.grey[700], size: 16.0,)
+                  new Icon(
+                    Icons.date_range, color: Colors.grey[700], size: 16.0,)
                 ],
               )
             ],
@@ -67,11 +69,9 @@ class MovieListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
-      onTap: () {
-        goToMovieDetails(context, movie);
-      },
-      child: new Card(
+    return new Card(
+      child: new InkWell(
+        onTap: () => goToMovieDetails(context, movie),
         child: new Column(
           children: <Widget>[
             new Hero(
