@@ -16,13 +16,16 @@ class MediaItem {
 
   String getPosterUrl() => getMediumPictureUrl(posterPath);
 
-  int getReleaseYear() =>
-      DateTime
-          .parse(releaseDate)
-          .year;
+  int getReleaseYear() {
+    return releaseDate == null
+        ? ""
+        : DateTime
+        .parse(releaseDate)
+        .year;
+  }
 
   factory MediaItem(Map jsonMap, MediaType type) {
-      return new MediaItem._internalFromJson(jsonMap, type: type);
+    return new MediaItem._internalFromJson(jsonMap, type: type);
   }
 
   MediaItem._internalFromJson(Map jsonMap, {MediaType type: MediaType.movie})
@@ -34,7 +37,9 @@ class MediaItem {
         posterPath = jsonMap["poster_path"] ?? "",
         backdropPath = jsonMap["backdrop_path"] ?? "",
         overview = jsonMap["overview"],
-        releaseDate = jsonMap[(type == MediaType.movie ? "release_date" : "first_air_date")],
+        releaseDate = jsonMap[(type == MediaType.movie
+            ? "release_date"
+            : "first_air_date")],
         genreIds = jsonMap["genre_ids"];
 
 

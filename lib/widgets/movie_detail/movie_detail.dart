@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
@@ -137,7 +139,8 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
                     color: new Color(0xFFEEEEEE), fontSize: 20.0)),
           ),
           new Row(
-            children: getGenresForIds(mediaItem.genreIds).map((genre) =>
+            children: getGenresForIds(mediaItem.genreIds).sublist(
+                0, min(5, mediaItem.genreIds.length)).map((genre) =>
             new Row(
               children: <Widget>[
                 new TextBubble(genre),

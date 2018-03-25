@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:movies_flutter/model/episode.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/model/tvseason.dart';
+import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
+import 'package:movies_flutter/widgets/season_detail/episode_card.dart';
 
 
 class SeasonDetailScreen extends StatelessWidget {
 
   final MediaItem show;
   final TvSeason season;
+
+  final ApiClient _apiClient = ApiClient.get();
 
   SeasonDetailScreen(this.show, this.season);
 
@@ -17,13 +22,14 @@ class SeasonDetailScreen extends StatelessWidget {
         backgroundColor: primary,
         body: new CustomScrollView(
           slivers: <Widget>[
-            _buildAppBar(show, season),
+            _buildAppBar(),
+            _buildEpisodesList()
           ],
         )
     );
   }
 
-  Widget _buildAppBar(MediaItem show, TvSeason season) {
+  Widget _buildAppBar() {
     return new SliverAppBar(
       expandedHeight: 300.0,
       pinned: true,
@@ -68,14 +74,38 @@ class SeasonDetailScreen extends StatelessWidget {
             ),
             new Padding(
               padding: const EdgeInsets.all(24.0),
-              child: new FadeInImage.assetNetwork(
-                  width: 100.0,
-                  placeholder: "assets/placeholder.jpg",
-                  image: season.getPosterUrl()),
+              child: new Hero(
+                tag: 'Season-Hero-${season.id}',
+                child: new FadeInImage.assetNetwork(
+                    width: 100.0,
+                    placeholder: "assets/placeholder.jpg",
+                    image: season.getPosterUrl()),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildEpisodesList() {
+    return new SliverList(
+        delegate: new SliverChildListDelegate(
+            <Widget>[
+              new FutureBuilder(
+                  future: _apiClient.fetchEpisodes(
+                      show.id, season.seasonNumber),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Episode>> snapshot) =>
+                  snapshot.connectionState != ConnectionState.done
+                      ? new Container(child: new CircularProgressIndicator(),)
+                      : new Column(
+                    children: snapshot.data.map((
+                        Episode episode) => new EpisodeCard(episode)).toList(),
+                  )
+              )
+            ]
+        )
     );
   }
 

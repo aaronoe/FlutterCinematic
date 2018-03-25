@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movies_flutter/model/cast.dart';
+import 'package:movies_flutter/model/episode.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/model/tvseason.dart';
 import 'package:movies_flutter/util/constants.dart';
@@ -90,7 +91,9 @@ class ApiClient {
 
   Future<List<TvSeason>> getShowSeasons(int showId) async {
     var detailJson = await getMediaDetails(showId, type: 'tv');
-    return detailJson['seasons'].map((item) => new TvSeason.fromMap(item)).toList();
+    return detailJson['seasons']
+        .map((item) => new TvSeason.fromMap(item))
+        .toList();
   }
 
   Future<List<MediaItem>> getSearchResults(String query) {
@@ -118,4 +121,16 @@ class ApiClient {
         .then((data) =>
         data.map((item) => new MediaItem(item, MediaType.show)).toList());
   }
+
+  Future<List<Episode>> fetchEpisodes(int showId, int seasonNumber) {
+    var url = new Uri.https(baseUrl, '3/tv/$showId/season/$seasonNumber', {
+      'api_key': API_KEY,
+    });
+
+    return _getJson(url)
+        .then((json) => json['episodes'])
+        .then((data) =>
+        data.map((item) => new Episode.fromJson(item)).toList());
+  }
+
 }
