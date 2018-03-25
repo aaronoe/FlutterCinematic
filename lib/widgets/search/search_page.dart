@@ -36,7 +36,7 @@ class _SearchPageState extends State<SearchScreen> {
     return new Scaffold(
         appBar: searchBar.build(context),
         body: (_resultList == null || _resultList.length == 0)
-            ? new Center(child: new Text("Enter your query"))
+            ? new Center(child: new Text("Search for movies, shows and actors"))
             : new ListView.builder(
             itemCount: _resultList.length,
             itemBuilder: (BuildContext context, int index) =>
