@@ -36,21 +36,18 @@ class HomePageState extends State<HomePage> {
       drawer: new Drawer(
         child: new ListView(
           children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text("Aaron Oertel"),
-              accountEmail: new Text("aaronoe97@gmail.com"),
-              decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        const Color(0xff2b5876),
-                        const Color(0xff4e4376),
-                      ]
-                  )
-              ),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: new NetworkImage(
-                    'https://lh3.googleusercontent.com/FY6e3irMirjwH-I7OWBL62XJcTgkNdXvMcDLzyyuJ3ZjtEqE31FKeFrVcwkFqwnR_FtTSdauTsBXxw=s529-rw-no'),),
-            ),
+            new DrawerHeader(
+                padding: const EdgeInsets.all(0.0),
+                child: new Container(
+                  decoration: new BoxDecoration(
+                      gradient: new LinearGradient(
+                          colors: [
+                            const Color(0xff2b5876),
+                            const Color(0xff4e4376),
+                          ]
+                      )
+                  ),
+                )),
             new ListTile(
               title: new Text("Movies"),
               selected: mediaType == MediaType.movie,
