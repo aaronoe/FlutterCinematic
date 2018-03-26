@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/episode.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/model/searchresult.dart';
 import 'package:movies_flutter/model/tvseason.dart';
 import 'package:movies_flutter/util/constants.dart';
 
@@ -96,8 +97,8 @@ class ApiClient {
         .toList();
   }
 
-  Future<List<MediaItem>> getSearchResults(String query) {
-    var url = new Uri.https(baseUrl, '3/search/movie', {
+  Future<List<SearchResult>> getSearchResults(String query) {
+    var url = new Uri.https(baseUrl, '3/search/multi', {
       'api_key': API_KEY,
       'query': query
     });
@@ -105,7 +106,7 @@ class ApiClient {
     return _getJson(url)
         .then((json) =>
         json['results']
-            .map((item) => new MediaItem(item, MediaType.movie))
+            .map((item) => new SearchResult.fromJson(item))
             .toList());
   }
 

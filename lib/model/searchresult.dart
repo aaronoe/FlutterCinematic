@@ -1,3 +1,5 @@
+import 'package:movies_flutter/model/cast.dart';
+import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/utils.dart';
 
 class SearchResult {
@@ -9,9 +11,9 @@ class SearchResult {
     switch (mediaType) {
       case "movie":
       case "tv":
-        return data['poster_path'];
+        return data['poster_path'] ?? "";
       case "person":
-        return data['profile_path'];
+        return data['profile_path'] ?? "";
       default:
         return "";
     }
@@ -20,14 +22,18 @@ class SearchResult {
   String get title {
     switch (mediaType) {
       case "movie":
-      case "tv":
         return data['title'];
+      case "tv":
       case "person":
         return data['name'];
       default:
         return "";
     }
   }
+
+  MediaItem get asMovie => new MediaItem(data, MediaType.movie);
+  MediaItem get asShow => new MediaItem(data, MediaType.show);
+  Actor get asActor => new Actor.fromJson(data);
 
   String get subtitle {
     switch (mediaType) {
@@ -36,7 +42,7 @@ class SearchResult {
       case "tv":
         return formatDate(data['first_air_date']);
       case "person":
-        return data['name'];
+        return concatListToString(data['known_for'], 'title');
       default:
         return "";
     }

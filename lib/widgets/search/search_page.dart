@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
-import 'package:movies_flutter/model/mediaitem.dart';
+import 'package:movies_flutter/model/searchresult.dart';
 import 'package:movies_flutter/util/api_client.dart';
-import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/search/search_item.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchPageState extends State<SearchScreen> {
 
   ApiClient _apiClient = ApiClient.get();
-  List<MediaItem> _resultList;
+  List<SearchResult> _resultList;
   SearchBar searchBar;
 
   _SearchPageState() {
@@ -26,8 +26,8 @@ class _SearchPageState extends State<SearchScreen> {
 
   void _onSubmitted(String text) async {
     try {
-      List<MediaItem> movies = await _apiClient.getSearchResults(text);
-      if (movies != null) setState(() => _resultList = movies);
+      List<SearchResult> searchResults = await _apiClient.getSearchResults(text);
+      if (searchResults != null) setState(() => _resultList = searchResults);
     } catch (Exception) {}
   }
 
@@ -40,7 +40,7 @@ class _SearchPageState extends State<SearchScreen> {
             : new ListView.builder(
             itemCount: _resultList.length,
             itemBuilder: (BuildContext context, int index) =>
-            new MovieListItem(_resultList[index])
+            new SearchItemCard(_resultList[index])
         )
     );
   }

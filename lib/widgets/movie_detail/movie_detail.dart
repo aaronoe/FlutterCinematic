@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
   List<TvSeason> _seasonList;
   List<MediaItem> _similarMedia;
   dynamic _mediaDetails;
+  bool _visible = false;
 
 
   @override
@@ -44,8 +46,12 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
     super.initState();
     _loadCast();
     _loadDetails();
-    if (widget._mediaItem.type == MediaType.show) _loadSeasons();
     _loadSimilar();
+    if (widget._mediaItem.type == MediaType.show) _loadSeasons();
+
+    new Timer(
+        new Duration(milliseconds: 100), () => setState(() => _visible = true)
+    );
   }
 
   void _loadCast() async {
@@ -117,38 +123,42 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
 
 
   Widget _buildMetaSection(MediaItem mediaItem) {
-    return new Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Row(
-            children: <Widget>[
-              new TextBubble(mediaItem.getReleaseYear().toString(),
-                backgroundColor: new Color(0xffF47663),),
-              new Container(width: 8.0,),
-              new TextBubble(mediaItem.voteAverage.toString(),
-                  backgroundColor: new Color(0xffF47663)),
-            ],
-          ),
-          new Container(
-            margin: const EdgeInsets.symmetric(vertical: 8.0),
-            child: new Text(mediaItem.title,
-                style: new TextStyle(
-                    color: new Color(0xFFEEEEEE), fontSize: 20.0)),
-          ),
-          new Row(
-            children: getGenresForIds(mediaItem.genreIds).sublist(
-                0, min(5, mediaItem.genreIds.length)).map((genre) =>
+    return new AnimatedOpacity(
+      opacity: _visible ? 1.0 : 0.0,
+      duration: new Duration(milliseconds: 500),
+      child: new Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
             new Row(
               children: <Widget>[
-                new TextBubble(genre),
-                new Container(width: 8.0,)
+                new TextBubble(mediaItem.getReleaseYear().toString(),
+                  backgroundColor: new Color(0xffF47663),),
+                new Container(width: 8.0,),
+                new TextBubble(mediaItem.voteAverage.toString(),
+                    backgroundColor: new Color(0xffF47663)),
               ],
-            )).toList(),
-          )
-        ],
+            ),
+            new Container(
+              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              child: new Text(mediaItem.title,
+                  style: new TextStyle(
+                      color: new Color(0xFFEEEEEE), fontSize: 20.0)),
+            ),
+            new Row(
+              children: getGenresForIds(mediaItem.genreIds).sublist(
+                  0, min(5, mediaItem.genreIds.length)).map((genre) =>
+              new Row(
+                children: <Widget>[
+                  new TextBubble(genre),
+                  new Container(width: 8.0,)
+                ],
+              )).toList(),
+            )
+          ],
+        ),
       ),
     );
   }

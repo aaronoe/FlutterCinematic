@@ -49,6 +49,12 @@ class HomePageState extends State<HomePage> {
                   ),
                 )),
             new ListTile(
+              title: new Text("Search"),
+              trailing: new Icon(Icons.search),
+              onTap: () => goToSearch(context),
+            ),
+            new Divider(height: 5.0,),
+            new ListTile(
               title: new Text("Movies"),
               selected: mediaType == MediaType.movie,
               trailing: new Icon(Icons.local_movies),
