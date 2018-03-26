@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
@@ -15,20 +17,33 @@ class ActorDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return new DefaultTabController(
+      length: 2,
+      child: new Scaffold(
         backgroundColor: primary,
-        body: new CustomScrollView(
-          slivers: <Widget>[
-            _buildAppBar(context, _actor),
-            _buildMoviesSection(_actor)
-          ],
-        )
+        body: new NestedScrollView(
+          body: new TabBarView(
+            children: <Widget>[
+              _buildMoviesSection(_apiClient.getMoviesForActor(_actor.id)),
+              _buildMoviesSection(_apiClient.getShowsForActor(_actor.id)),
+            ],
+          ),
+          headerSliverBuilder: (BuildContext context,
+              bool innerBoxIsScrolled) => [_buildAppBar(context, _actor)],
+        ),
+      ),
     );
   }
 
   Widget _buildAppBar(BuildContext context, Actor actor) {
     return new SliverAppBar(
       expandedHeight: 240.0,
+      bottom: new TabBar(
+        tabs: <Widget>[
+          new Tab(icon: new Icon(Icons.movie),),
+          new Tab(icon: new Icon(Icons.tv),),
+        ],
+      ),
       pinned: true,
       flexibleSpace: new FlexibleSpaceBar(
         background: new Container(
@@ -51,8 +66,8 @@ class ActorDetailScreen extends StatelessWidget {
               new Hero(
                   tag: 'Cast-Hero-${actor.id}',
                   child: new Container(
-                    width: 128.0,
-                    height: 128.0,
+                    width: 112.0,
+                    height: 112.0,
                     child: new FittedCircleAvatar(
                       backgroundImage: new NetworkImage(
                           actor.getProfilePicture()
@@ -61,7 +76,8 @@ class ActorDetailScreen extends StatelessWidget {
                   )
               ),
               new Container(height: 8.0,),
-              new Text(actor.name, style: whiteBody.copyWith(fontSize: 22.0),)
+              new Text(actor.name, style: whiteBody.copyWith(fontSize: 22.0),),
+              new Container(height: 16.0,),
             ],
           ),
         ),
@@ -69,25 +85,23 @@ class ActorDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMoviesSection(Actor actor) {
-    return new SliverList(
-      delegate: new SliverChildListDelegate(
-          <Widget>[
-            new FutureBuilder(
-              future: _apiClient.getMoviesForActor(actor.id),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<MediaItem>> snapshot) {
-                return snapshot.hasData
-                    ? new Column(children: snapshot.data.map((
-                    MediaItem movie) => new MovieListItem(movie)).toList())
-                    : new Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: new Center(child: new CircularProgressIndicator()),
-                    );
-              },
-            )
-          ]
-      ),
+  Widget _buildMoviesSection(Future<List<MediaItem>> future) {
+    return new FutureBuilder(
+      future: future,
+      builder: (BuildContext context,
+          AsyncSnapshot<List<MediaItem>> snapshot) {
+        return snapshot.hasData
+            ? new ListView.builder(
+          itemBuilder: (BuildContext context, int index) =>
+          new MovieListItem(snapshot.data[index]),
+          itemCount: snapshot.data.length,
+        )
+            : new Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: new Center(child: new CircularProgressIndicator()
+          ),
+        );
+      },
     );
   }
 

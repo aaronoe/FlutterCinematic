@@ -17,8 +17,8 @@ class MediaItem {
   String getPosterUrl() => getMediumPictureUrl(posterPath);
 
   int getReleaseYear() {
-    return releaseDate == null
-        ? ""
+    return releaseDate == null || releaseDate == ""
+        ? 0
         : DateTime
         .parse(releaseDate)
         .year;

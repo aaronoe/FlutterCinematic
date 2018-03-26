@@ -71,6 +71,18 @@ class ApiClient {
         data.map((item) => new MediaItem(item, MediaType.movie)).toList());
   }
 
+  Future<List<MediaItem>> getShowsForActor(int actorId) async {
+    var url = new Uri.https(
+        baseUrl, '3/person/$actorId/tv_credits', {
+      'api_key': API_KEY,
+    });
+
+    return _getJson(url)
+        .then((json) => json['cast'])
+        .then((data) =>
+        data.map((item) => new MediaItem(item, MediaType.show)).toList());
+  }
+
   Future<List<Actor>> getMediaCredits(int mediaId,
       {String type: "movie"}) async {
     var url = new Uri.https(baseUrl, '3/$type/$mediaId/credits', {
