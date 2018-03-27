@@ -1,8 +1,10 @@
 # Flutter Cinematic
 
 This app is a Flutter port of the native Android App [Cinematic](https://github.com/aaronoe/Cinematic).
-The intention with creating this app was understanding the intricacies of building apps in Flutter.
+My intention in creating this app was understanding the intricacies of building apps in Flutter.
 Just like the native Android App this app does **not make any efforts in being a nicely architectured application**.
+That being said the whole point is to showcase Flutter's capabilities for building simple apps 
+and to understand key difference and advantages to native development.
 
 ## Overview
 
@@ -30,3 +32,7 @@ Coming from the realms of Android, those are the things that stood out to me:
 I think for the Usecase of Flutter Dart actually makes a lot of sense
 - The ability to not worry about state changes in the UI. The Widget will take care of the rendering 
 using it's properties or state
+
+## License
+
+This project utilizes the [MIT License](https://github.com/aaronoe/FlutterCinematic/blob/master/LICENSE "Project License")
