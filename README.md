@@ -12,6 +12,10 @@ sources and uses the standard dart libraries for making network requests.
 In terms of UI, the goal was replicating the Android design as closely as possible to understand
 the possibilities that Flutter offers for crafting UIs.
 
+## Video
+
+![In App Experience](https://github.com/aaronoe/FlutterCinematic/blob/master/screenshots/flutter_cinematic_gif.gif?raw=true)
+
 ## Learnings
 
 Creating this app and learning Flutter in general felt like a gift for developers.
