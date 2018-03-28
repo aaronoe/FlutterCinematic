@@ -4,23 +4,26 @@ import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
 
-// TODO: I should make this a StatefulWidget at some point
-// and figure out the infinite scrolling
-class MediaList extends StatelessWidget {
+class MediaList extends StatefulWidget {
+  MediaList(this.provider, this.category, {Key key})
+      : super(key: key);
+
   final MediaProvider provider;
   final String category;
 
-  MediaList(this.provider, this.category);
+  @override
+  _MediaListState createState() => new _MediaListState();
+}
 
-  final GlobalKey<AsyncLoaderState> _asyncLoaderState =
-      new GlobalKey<AsyncLoaderState>();
-  final List<MediaItem> _movies = new List();
+class _MediaListState extends State<MediaList> {
+
+  List<MediaItem> _movies;
   int _pageNumber = 1;
 
   _loadNextPage() async {
     _pageNumber++;
     try {
-      var nextMovies = await provider.loadMedia(category, page: _pageNumber);
+      var nextMovies = await widget.provider.loadMedia(widget.category, page: _pageNumber);
       _movies.addAll(nextMovies);
     } catch (e) {}
   }
@@ -28,13 +31,13 @@ class MediaList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _asyncLoader = new AsyncLoader(
-        key: _asyncLoaderState,
-        initState: () async => await provider.loadMedia(category),
+        initState: () async =>
+        await widget.provider.loadMedia(widget.category),
         renderLoad: () => new CircularProgressIndicator(),
         renderError: ([error]) =>
         new Text('Sorry, there was an error loading your movie'),
         renderSuccess: ({data}) {
-          _movies.addAll(data);
+          _movies = data;
 
           return new ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -44,8 +47,11 @@ class MediaList extends StatelessWidget {
 
                 return new MovieListItem(_movies[index]);
               });
-        });
+        }
+    );
 
-    return new Center(child: _asyncLoader);
+    return new Center(
+        child: _asyncLoader
+    );
   }
 }

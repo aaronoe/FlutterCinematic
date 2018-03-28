@@ -132,14 +132,14 @@ class HomePageState extends State<HomePage> {
   List<Widget> _getMediaList() {
     return (mediaType == MediaType.movie)
         ? <Widget>[
-      new MediaList(movieProvider, "popular"),
-      new MediaList(movieProvider, "upcoming"),
-      new MediaList(movieProvider, "top_rated"),
+      new MediaList(movieProvider, "popular", key: new Key("movies-popular"),),
+      new MediaList(movieProvider, "upcoming", key: new Key("movies-upcoming")),
+      new MediaList(movieProvider, "top_rated", key: new Key("movies-top_rated")),
     ]
         : <Widget>[
-      new MediaList(showProvider, "popular"),
-      new MediaList(showProvider, "on_the_air"),
-      new MediaList(showProvider, "top_rated"),
+      new MediaList(showProvider, "popular", key: new Key("shows-popular")),
+      new MediaList(showProvider, "on_the_air", key: new Key("movies-on_the_air")),
+      new MediaList(showProvider, "top_rated", key: new Key("movies-top_rated")),
     ];
   }
 
