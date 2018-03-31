@@ -47,7 +47,7 @@ class MovieListItem extends StatelessWidget {
                 children: <Widget>[
                   new Text(movie.voteAverage.toString(), style: captionStyle,),
                   new Container(width: 4.0,),
-                  new Icon(Icons.star, color: Colors.grey[700], size: 16.0,)
+                  new Icon(Icons.star, color: Colors.grey[400], size: 16.0,)
                 ],
               ),
               new Container(height: 4.0,),
@@ -57,7 +57,7 @@ class MovieListItem extends StatelessWidget {
                     movie.getReleaseYear().toString(), style: captionStyle,),
                   new Container(width: 4.0,),
                   new Icon(
-                    Icons.date_range, color: Colors.grey[700], size: 16.0,)
+                    Icons.date_range, color: Colors.grey[400], size: 16.0,)
                 ],
               )
             ],

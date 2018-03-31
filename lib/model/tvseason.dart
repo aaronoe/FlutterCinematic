@@ -1,7 +1,6 @@
 import 'package:movies_flutter/util/utils.dart';
 
 class TvSeason {
-
   String airDate;
   int episodeCount;
   int id;
@@ -12,10 +11,9 @@ class TvSeason {
 
   String getPosterUrl() => getMediumPictureUrl(posterPath);
 
-  int getReleaseYear() =>
-      DateTime
-          .parse(airDate)
-          .year;
+  String getReleaseYear() {
+    return (airDate == null) ? "" : DateTime.parse(airDate).year.toString();
+  }
 
   String getFormattedTitle() {
     if (seasonNumber == 0) return 'Extras';
@@ -30,5 +28,4 @@ class TvSeason {
         overview = jsonMap['overview'],
         posterPath = jsonMap['poster_path'] ?? "",
         seasonNumber = jsonMap['season_number'];
-
 }

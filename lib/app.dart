@@ -7,9 +7,7 @@ class CinematicApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Cinematic',
-      theme: new ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
+      theme: new ThemeData.dark(),
       home: new HomePage(),
     );
   }
