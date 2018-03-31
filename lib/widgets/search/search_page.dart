@@ -20,7 +20,7 @@ class _SearchPageState extends State<SearchScreen> {
 
   _SearchPageState() {
     searchBar = new SearchBar(
-        inBar: false,
+        inBar: true,
         controller: textController,
         setState: setState,
         buildDefaultAppBar: _buildAppBar,
