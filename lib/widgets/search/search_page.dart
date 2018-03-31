@@ -3,6 +3,7 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:movies_flutter/model/searchresult.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/widgets/search/search_item.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -14,38 +15,51 @@ class _SearchPageState extends State<SearchScreen> {
   List<SearchResult> _resultList = new List();
   SearchBar searchBar;
   LoadingState _currentState = LoadingState.WAITING;
+  PublishSubject<String> querySubject = new PublishSubject();
+  TextEditingController textController = new TextEditingController();
 
   _SearchPageState() {
     searchBar = new SearchBar(
         inBar: false,
+        controller: textController,
         setState: setState,
         buildDefaultAppBar: _buildAppBar,
-        onSubmitted: _onSubmitted);
+        onSubmitted: querySubject.add);
   }
 
-  void _onSubmitted(String text) async {
-    setState(() {
-      _currentState = LoadingState.LOADING;
-      _resultList.clear();
+  @override
+  void initState() {
+    super.initState();
+
+    textController.addListener(() {
+      querySubject.add(textController.text);
     });
-    try {
-      List<SearchResult> searchResults =
-          await _apiClient.getSearchResults(text);
-      if (searchResults != null) {
-        setState(() {
-          _currentState = LoadingState.DONE;
-          _resultList = searchResults;
-        });
-      } else {
-        _setErrorState();
-      }
 
-    } catch (Exception) {
-      _setErrorState();
-    }
+    querySubject.stream
+        .where((query) => query.isNotEmpty)
+        .debounce(new Duration(milliseconds: 500))
+        .distinct()
+        .switchMap((query) =>
+            new Observable.fromFuture(_apiClient.getSearchResults(query)))
+        .listen(_setResults, onError: _setErrorState);
   }
 
-  void _setErrorState() => setState(() => _currentState = LoadingState.ERROR);
+  void _setResults(List<SearchResult> results) {
+    setState(() {
+      _resultList = results;
+      _currentState = LoadingState.DONE;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    querySubject.close();
+    textController.dispose();
+  }
+
+  void _setErrorState(Error error) =>
+      setState(() => _currentState = LoadingState.ERROR);
 
   @override
   Widget build(BuildContext context) {

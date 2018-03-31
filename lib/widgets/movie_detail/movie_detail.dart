@@ -109,7 +109,7 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
               tag: "Movie-Tag-${widget._mediaItem.id}",
               child: new FadeInImage.assetNetwork(
                   fit: BoxFit.cover,
-                  width: double.INFINITY,
+                  width: double.infinity,
                   placeholder: "assets/placeholder.jpg",
                   image: widget._mediaItem.getBackDropUrl()),
             ),

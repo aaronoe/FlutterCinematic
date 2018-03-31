@@ -42,7 +42,7 @@ class SeasonDetailScreen extends StatelessWidget {
                 new FadeInImage.assetNetwork(
                     fit: BoxFit.cover,
                     height: 230.0,
-                    width: double.INFINITY,
+                    width: double.infinity,
                     placeholder: "assets/placeholder.jpg",
                     image: show.getBackDropUrl()),
                 new Expanded(
@@ -98,7 +98,10 @@ class SeasonDetailScreen extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Episode>> snapshot) =>
                   snapshot.connectionState != ConnectionState.done
-                      ? new Container(child: new CircularProgressIndicator(),)
+                      ? new Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: new Center(child: new CircularProgressIndicator(),),
+                      )
                       : new Column(
                     children: snapshot.data.map((
                         Episode episode) => new EpisodeCard(episode)).toList(),
