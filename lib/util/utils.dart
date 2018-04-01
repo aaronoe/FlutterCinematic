@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum LoadingState { DONE, LOADING, WAITING, ERROR }
+
 final dollarFormat = new NumberFormat("#,##0.00", "en_US");
 final sourceFormat = new DateFormat('yyyy-MM-dd');
 final dateFormat = new DateFormat.yMMMMd("en_US");

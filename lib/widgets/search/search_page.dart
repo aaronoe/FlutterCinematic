@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:movies_flutter/model/searchresult.dart';
 import 'package:movies_flutter/util/api_client.dart';
+import 'package:movies_flutter/util/utils.dart';
 import 'package:movies_flutter/widgets/search/search_item.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -98,5 +99,3 @@ class _SearchPageState extends State<SearchScreen> {
         actions: [searchBar.getSearchAction(context)]);
   }
 }
-
-enum LoadingState { DONE, LOADING, WAITING, ERROR }
