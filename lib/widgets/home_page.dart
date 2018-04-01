@@ -143,9 +143,9 @@ class HomePageState extends State<HomePage> {
             new MediaList(showProvider, "popular",
                 key: new Key("shows-popular")),
             new MediaList(showProvider, "on_the_air",
-                key: new Key("movies-on_the_air")),
+                key: new Key("shows-on_the_air")),
             new MediaList(showProvider, "top_rated",
-                key: new Key("movies-top_rated")),
+                key: new Key("shows-top_rated")),
           ];
   }
 
