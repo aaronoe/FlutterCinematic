@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/navigator.dart';
-import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
 
 class MovieListItem extends StatelessWidget {
-
   MovieListItem(this.movie);
 
   final MediaItem movie;
 
-  Widget _getTitleSection() {
+  Widget _getTitleSection(BuildContext context) {
     return new Container(
       padding: const EdgeInsets.all(12.0),
       child: new Row(
@@ -22,9 +20,11 @@ class MovieListItem extends StatelessWidget {
                 new Container(
                   child: new Text(
                     movie.title,
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .subhead
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
                 new Container(
@@ -33,31 +33,49 @@ class MovieListItem extends StatelessWidget {
                     getGenreString(movie.genreIds),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: captionStyle,
+                    style: Theme.of(context).textTheme.body1,
                   ),
                 )
               ],
             ),
           ),
-          new Container(width: 12.0,),
+          new Container(
+            width: 12.0,
+          ),
           new Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               new Row(
                 children: <Widget>[
-                  new Text(movie.voteAverage.toString(), style: captionStyle,),
-                  new Container(width: 4.0,),
-                  new Icon(Icons.star, color: Colors.grey[400], size: 16.0,)
+                  new Text(
+                    movie.voteAverage.toString(),
+                    style: Theme.of(context).textTheme.body1,
+                  ),
+                  new Container(
+                    width: 4.0,
+                  ),
+                  new Icon(
+                    Icons.star,
+                    size: 16.0,
+                  )
                 ],
               ),
-              new Container(height: 4.0,),
+              new Container(
+                height: 4.0,
+              ),
               new Row(
                 children: <Widget>[
                   new Text(
-                    movie.getReleaseYear().toString(), style: captionStyle,),
-                  new Container(width: 4.0,),
+                    movie.getReleaseYear().toString(),
+                    style: Theme.of(context).textTheme.body1,
+                  ),
+                  new Container(
+                    width: 4.0,
+                  ),
                   new Icon(
-                    Icons.date_range, color: Colors.grey[400], size: 16.0,)
+                    Icons.date_range,
+                    size: 16.0,
+                  )
                 ],
               )
             ],
@@ -85,11 +103,10 @@ class MovieListItem extends StatelessWidget {
               ),
               tag: "Movie-Tag-${movie.id}",
             ),
-            _getTitleSection(),
+            _getTitleSection(context),
           ],
         ),
       ),
     );
   }
-
 }

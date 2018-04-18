@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:movies_flutter/scoped_models/app_model.dart';
 import 'package:movies_flutter/widgets/home_page.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CinematicApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Cinematic',
-      theme: new ThemeData.dark(),
-      home: new HomePage(),
+    return new ScopedModelDescendant<AppModel>(
+      builder: (context, child, model) => new MaterialApp(
+            title: 'Cinematic',
+            theme: model.theme,
+            home: new HomePage(),
+          ),
     );
   }
-
 }

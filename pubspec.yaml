@@ -12,7 +12,8 @@ dependencies:
   intl: "^0.15.2"
   flutter_search_bar: "^2.0.2"
   rxdart: "^0.16.5"
-
+  scoped_model: "^0.2.0"
+  shared_preferences: "^0.4.1"
 
 dev_dependencies:
   flutter_test:
