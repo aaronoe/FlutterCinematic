@@ -12,7 +12,7 @@ class SeasonDetailScreen extends StatelessWidget {
   final MediaItem show;
   final TvSeason season;
 
-  final ApiClient _apiClient = ApiClient.get();
+  final ApiClient _apiClient = new ApiClient();
 
   SeasonDetailScreen(this.show, this.season);
 

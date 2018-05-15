@@ -11,7 +11,7 @@ import 'package:movies_flutter/widgets/utilviews/fitted_circle_avatar.dart';
 
 class ActorDetailScreen extends StatelessWidget {
   final Actor _actor;
-  final ApiClient _apiClient = ApiClient.get();
+  final ApiClient _apiClient = new ApiClient();
 
   ActorDetailScreen(this._actor);
 

@@ -12,7 +12,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchScreen> {
-  ApiClient _apiClient = ApiClient.get();
+  ApiClient _apiClient = new ApiClient();
   List<SearchResult> _resultList = new List();
   SearchBar searchBar;
   LoadingState _currentState = LoadingState.WAITING;
