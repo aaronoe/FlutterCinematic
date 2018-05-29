@@ -56,6 +56,11 @@ class HomePageState extends State<HomePage> {
               trailing: new Icon(Icons.search),
               onTap: () => goToSearch(context),
             ),
+            new ListTile(
+              title: new Text("Favorites"),
+              trailing: new Icon(Icons.favorite),
+              onTap: () => goToFavorites(context),
+            ),
             new Divider(
               height: 5.0,
             ),

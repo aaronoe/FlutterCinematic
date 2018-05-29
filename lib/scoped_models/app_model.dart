@@ -26,7 +26,13 @@ class AppModel extends Model {
   int _currentTheme = 0;
 
   ThemeData get theme => _themes[_currentTheme];
-  List<MediaItem> get favorites => _favorites.toList();
+
+  List<MediaItem> get favoriteMovies => _favorites
+      .where((MediaItem item) => item.type == MediaType.movie)
+      .toList();
+  List<MediaItem> get favoriteShows => _favorites
+      .where((MediaItem item) => item.type == MediaType.show)
+      .toList();
 
   void toggleTheme() {
     _currentTheme = (_currentTheme + 1) % _themes.length;
