@@ -5,7 +5,6 @@ import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 
 abstract class MediaProvider {
-
   Future<List<MediaItem>> loadMedia(String category, {int page: 1});
 
   Future<List<Actor>> loadCast(int mediaId);
@@ -13,14 +12,12 @@ abstract class MediaProvider {
   Future<dynamic> getDetails(int mediaId);
 
   Future<List<MediaItem>> getSimilar(int mediaId);
-
 }
 
 class MovieProvider extends MediaProvider {
-
   MovieProvider();
 
-  ApiClient _apiClient = ApiClient.get();
+  ApiClient _apiClient = new ApiClient();
 
   @override
   Future<List<MediaItem>> loadMedia(String category, {int page: 1}) {
@@ -41,16 +38,12 @@ class MovieProvider extends MediaProvider {
   Future<List<Actor>> loadCast(int mediaId) {
     return _apiClient.getMediaCredits(mediaId, type: "movie");
   }
-
-
 }
 
 class ShowProvider extends MediaProvider {
-
-
   ShowProvider();
 
-  ApiClient _apiClient = ApiClient.get();
+  ApiClient _apiClient = new ApiClient();
 
   @override
   Future<List<MediaItem>> loadMedia(String category, {int page: 1}) {
@@ -71,6 +64,4 @@ class ShowProvider extends MediaProvider {
   Future<List<Actor>> loadCast(int mediaId) {
     return _apiClient.getMediaCredits(mediaId, type: "tv");
   }
-
-
 }

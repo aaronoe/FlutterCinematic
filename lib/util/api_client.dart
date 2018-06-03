@@ -17,9 +17,7 @@ class ApiClient {
 
   final String baseUrl = 'api.themoviedb.org';
 
-  static ApiClient get() {
-    return _client;
-  }
+  factory ApiClient() => _client;
 
   Future<dynamic> _getJson(Uri uri) async {
     var response = await (await _http.getUrl(uri)).close();

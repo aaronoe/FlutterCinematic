@@ -35,6 +35,24 @@ class MediaItem {
         releaseDate = jsonMap[
             (type == MediaType.movie ? "release_date" : "first_air_date")],
         genreIds = jsonMap["genre_ids"];
+
+  Map toJson() => {
+        'type': type == MediaType.movie ? 1 : 0,
+        'id': id,
+        'vote_average': voteAverage,
+        'title': title,
+        'poster_path': posterPath,
+        'backdrop_path': backdropPath,
+        'overview': overview,
+        'release_date': releaseDate,
+        'genre_ids': genreIds
+      };
+
+  factory MediaItem.fromPrefsJson(Map jsonMap) =>
+      new MediaItem._internalFromJson(jsonMap,
+          type: (jsonMap['type'].toInt() == 1)
+              ? MediaType.movie
+              : MediaType.show);
 }
 
 enum MediaType { movie, show }
