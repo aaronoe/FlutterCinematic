@@ -4,9 +4,7 @@ import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 
-
 class CastCard extends StatelessWidget {
-
   final double height;
   final double width;
   final Actor actor;
@@ -27,7 +25,7 @@ class CastCard extends StatelessWidget {
               tag: 'Cast-Hero-${actor.id}',
               child: new FadeInImage.assetNetwork(
                 placeholder: 'assets/placeholder.jpg',
-                image: actor.getProfilePicture(),
+                image: actor.profilePictureUrl,
                 fit: BoxFit.cover,
                 height: height,
                 width: width,
@@ -40,23 +38,35 @@ class CastCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(actor.name, style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 10.0),),
-                  new Container(height: 4.0,),
+                  new Text(
+                    actor.name,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 10.0),
+                  ),
+                  new Container(
+                    height: 4.0,
+                  ),
                   new Row(
                     children: <Widget>[
-                      new Expanded(child: new Icon(
-                        Icons.person, color: salmon, size: 10.0,)),
-                      new Container(width: 4.0,),
+                      new Expanded(
+                          child: new Icon(
+                        Icons.person,
+                        color: salmon,
+                        size: 10.0,
+                      )),
+                      new Container(
+                        width: 4.0,
+                      ),
                       new Expanded(
                         flex: 8,
-                        child: new Text(actor.character, softWrap: true,
-                            overflow: TextOverflow.ellipsis, maxLines: 2,
+                        child: new Text(actor.character,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                             style: const TextStyle(
-                                color: Colors.grey, fontSize: 8.0)
-                        ),
+                                color: Colors.grey, fontSize: 8.0)),
                       ),
                     ],
                   )
