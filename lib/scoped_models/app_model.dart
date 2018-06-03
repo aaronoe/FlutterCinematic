@@ -45,6 +45,7 @@ class AppModel extends Model {
           1 ??
       false;
 
+  // TODO: this should ideally be stored in a database and accessed through a repository
   void toggleFavorites(MediaItem favoriteItem) {
     !isItemFavorite(favoriteItem)
         ? _favorites.add(favoriteItem)
