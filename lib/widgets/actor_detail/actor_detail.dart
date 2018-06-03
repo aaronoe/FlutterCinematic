@@ -5,7 +5,7 @@ import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
-import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/movie_list/media_list_item.dart';
 import 'package:movies_flutter/widgets/utilviews/fitted_circle_avatar.dart';
 
 class ActorDetailScreen extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/utils.dart';
-import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/movie_list/media_list_item.dart';
 
 class MediaList extends StatefulWidget {
   MediaList(this.provider, this.category, {Key key}) : super(key: key);

@@ -10,28 +10,28 @@ import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
-import 'package:movies_flutter/widgets/movie_detail/cast_section.dart';
-import 'package:movies_flutter/widgets/movie_detail/meta_section.dart';
-import 'package:movies_flutter/widgets/movie_detail/season_section.dart';
-import 'package:movies_flutter/widgets/movie_detail/similar_section.dart';
+import 'package:movies_flutter/widgets/media_detail/cast_section.dart';
+import 'package:movies_flutter/widgets/media_detail/meta_section.dart';
+import 'package:movies_flutter/widgets/media_detail/season_section.dart';
+import 'package:movies_flutter/widgets/media_detail/similar_section.dart';
 import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class MovieDetailScreen extends StatefulWidget {
+class MediaDetailScreen extends StatefulWidget {
   final MediaItem _mediaItem;
   final MediaProvider provider;
   final ApiClient _apiClient = new ApiClient();
 
-  MovieDetailScreen(this._mediaItem, this.provider);
+  MediaDetailScreen(this._mediaItem, this.provider);
 
   @override
-  MovieDetailScreenState createState() {
-    return new MovieDetailScreenState();
+  MediaDetailScreenState createState() {
+    return new MediaDetailScreenState();
   }
 }
 
-class MovieDetailScreenState extends State<MovieDetailScreen> {
+class MediaDetailScreenState extends State<MediaDetailScreen> {
   List<Actor> _actorList;
   List<TvSeason> _seasonList;
   List<MediaItem> _similarMedia;

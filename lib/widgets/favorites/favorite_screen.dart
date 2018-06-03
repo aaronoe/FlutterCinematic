@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/scoped_models/app_model.dart';
-import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/movie_list/media_list_item.dart';
 import 'package:movies_flutter/widgets/utilviews/toggle_theme_widget.dart';
 import 'package:scoped_model/scoped_model.dart';
 

@@ -8,14 +8,14 @@ class MetaSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        new Text(
+        Text(
           "About",
-          style: new TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
-        new Container(
+        Container(
           height: 8.0,
         ),
         _getSectionOrContainer('Original Title', 'original_title'),
@@ -32,7 +32,7 @@ class MetaSection extends StatelessWidget {
                 'Seasons',
                 formatSeasonsAndEpisodes(
                     data['number_of_seasons'], data['number_of_episodes']))
-            : new Container(),
+            : Container(),
         _getSectionOrContainer('Premiere', 'release_date',
             formatterFunction: formatDate),
         _getSectionOrContainer('Premiere', 'first_air_date',
@@ -53,14 +53,14 @@ class MetaSection extends StatelessWidget {
   Widget _getCollectionSectionOrContainer(
       String title, String listKey, String mapKey) {
     return data[listKey] == null
-        ? new Container()
+        ? Container()
         : _getMetaInfoSection(title, concatListToString(data[listKey], mapKey));
   }
 
   Widget _getSectionOrContainer(String title, String content,
       {dynamic formatterFunction, bool isLink: false}) {
     return data[content] == null
-        ? new Container()
+        ? Container()
         : _getMetaInfoSection(
             title,
             (formatterFunction != null
@@ -71,29 +71,29 @@ class MetaSection extends StatelessWidget {
 
   Widget _getMetaInfoSection(String title, String content,
       {bool isLink: false}) {
-    if (content == null) return new Container();
+    if (content == null) return Container();
 
-    var contentSection = new Expanded(
+    var contentSection = Expanded(
       flex: 4,
-      child: new GestureDetector(
+      child: GestureDetector(
         onTap: () => isLink ? launchUrl(content) : null,
-        child: new Text(
+        child: Text(
           content,
-          style: new TextStyle(
+          style: TextStyle(
               color: isLink ? Colors.blue : Colors.white, fontSize: 11.0),
         ),
       ),
     );
 
-    return new Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: new Row(
+        child: Row(
           children: <Widget>[
-            new Expanded(
+            Expanded(
               flex: 2,
-              child: new Text(
+              child: Text(
                 '$title:',
-                style: new TextStyle(color: Colors.grey, fontSize: 11.0),
+                style: TextStyle(color: Colors.grey, fontSize: 11.0),
               ),
             ),
             contentSection

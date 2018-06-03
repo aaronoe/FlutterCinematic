@@ -5,7 +5,7 @@ import 'package:movies_flutter/model/tvseason.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/widgets/actor_detail/actor_detail.dart';
 import 'package:movies_flutter/widgets/favorites/favorite_screen.dart';
-import 'package:movies_flutter/widgets/movie_detail/movie_detail.dart';
+import 'package:movies_flutter/widgets/media_detail/media_detail.dart';
 import 'package:movies_flutter/widgets/search/search_page.dart';
 import 'package:movies_flutter/widgets/season_detail/season_detail_screen.dart';
 
@@ -13,7 +13,7 @@ goToMovieDetails(BuildContext context, MediaItem movie) {
   MediaProvider provider = (movie.type == MediaType.movie)
       ? new MovieProvider()
       : new ShowProvider();
-  _pushWidgetWithFade(context, new MovieDetailScreen(movie, provider));
+  _pushWidgetWithFade(context, new MediaDetailScreen(movie, provider));
 }
 
 goToSeasonDetails(BuildContext context, MediaItem show, TvSeason season) =>
