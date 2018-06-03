@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppModel extends Model {
   final SharedPreferences _sharedPrefs;
-  Set<MediaItem> _favorites = new Set();
+  Set<MediaItem> _favorites = Set();
   static const _THEME_KEY = "theme_prefs_key";
   static const _FAVORITES_KEY = "media_favorites_key";
 
@@ -15,14 +15,11 @@ class AppModel extends Model {
     _currentTheme = _sharedPrefs.getInt(_THEME_KEY) ?? 0;
     _favorites.addAll(_sharedPrefs
             .getStringList(_FAVORITES_KEY)
-            ?.map((value) => new MediaItem.fromPrefsJson(json.decode(value))) ??
-        new Set());
+            ?.map((value) => MediaItem.fromPrefsJson(json.decode(value))) ??
+        Set());
   }
 
-  static List<ThemeData> _themes = [
-    new ThemeData.dark(),
-    new ThemeData.light()
-  ];
+  static List<ThemeData> _themes = [ThemeData.dark(), ThemeData.light()];
   int _currentTheme = 0;
 
   ThemeData get theme => _themes[_currentTheme];
@@ -30,6 +27,7 @@ class AppModel extends Model {
   List<MediaItem> get favoriteMovies => _favorites
       .where((MediaItem item) => item.type == MediaType.movie)
       .toList();
+
   List<MediaItem> get favoriteShows => _favorites
       .where((MediaItem item) => item.type == MediaType.show)
       .toList();

@@ -3,7 +3,6 @@ import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/utils.dart';
 
 class SearchResult {
-
   String mediaType;
   Map<String, dynamic> data;
 
@@ -31,9 +30,11 @@ class SearchResult {
     }
   }
 
-  MediaItem get asMovie => new MediaItem(data, MediaType.movie);
-  MediaItem get asShow => new MediaItem(data, MediaType.show);
-  Actor get asActor => new Actor.fromJson(data);
+  MediaItem get asMovie => MediaItem(data, MediaType.movie);
+
+  MediaItem get asShow => MediaItem(data, MediaType.show);
+
+  Actor get asActor => Actor.fromJson(data);
 
   String get subtitle {
     switch (mediaType) {
@@ -53,5 +54,4 @@ class SearchResult {
   SearchResult.fromJson(Map jsonMap)
       : mediaType = jsonMap['media_type'],
         data = jsonMap;
-
 }

@@ -10,28 +10,28 @@ import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/styles.dart';
 import 'package:movies_flutter/util/utils.dart';
-import 'package:movies_flutter/widgets/movie_detail/cast_section.dart';
-import 'package:movies_flutter/widgets/movie_detail/meta_section.dart';
-import 'package:movies_flutter/widgets/movie_detail/season_section.dart';
-import 'package:movies_flutter/widgets/movie_detail/similar_section.dart';
+import 'package:movies_flutter/widgets/media_detail/cast_section.dart';
+import 'package:movies_flutter/widgets/media_detail/meta_section.dart';
+import 'package:movies_flutter/widgets/media_detail/season_section.dart';
+import 'package:movies_flutter/widgets/media_detail/similar_section.dart';
 import 'package:movies_flutter/widgets/utilviews/bottom_gradient.dart';
 import 'package:movies_flutter/widgets/utilviews/text_bubble.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class MovieDetailScreen extends StatefulWidget {
+class MediaDetailScreen extends StatefulWidget {
   final MediaItem _mediaItem;
   final MediaProvider provider;
-  final ApiClient _apiClient = new ApiClient();
+  final ApiClient _apiClient = ApiClient();
 
-  MovieDetailScreen(this._mediaItem, this.provider);
+  MediaDetailScreen(this._mediaItem, this.provider);
 
   @override
-  MovieDetailScreenState createState() {
-    return new MovieDetailScreenState();
+  MediaDetailScreenState createState() {
+    return MediaDetailScreenState();
   }
 }
 
-class MovieDetailScreenState extends State<MovieDetailScreen> {
+class MediaDetailScreenState extends State<MediaDetailScreen> {
   List<Actor> _actorList;
   List<TvSeason> _seasonList;
   List<MediaItem> _similarMedia;
@@ -46,8 +46,7 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
     _loadSimilar();
     if (widget._mediaItem.type == MediaType.show) _loadSeasons();
 
-    new Timer(
-        new Duration(milliseconds: 100), () => setState(() => _visible = true));
+    Timer(Duration(milliseconds: 100), () => setState(() => _visible = true));
   }
 
   void _loadCast() async {
@@ -61,7 +60,9 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
     try {
       dynamic details = await widget.provider.getDetails(widget._mediaItem.id);
       setState(() => _mediaDetails = details);
-    } catch (e) {}
+    } catch (e) {
+      e.toString();
+    }
   }
 
   void _loadSeasons() async {
@@ -82,9 +83,9 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         backgroundColor: primary,
-        body: new CustomScrollView(
+        body: CustomScrollView(
           slivers: <Widget>[
             _buildAppBar(widget._mediaItem),
             _buildContentSection(widget._mediaItem),
@@ -93,30 +94,30 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 
   Widget _buildAppBar(MediaItem movie) {
-    return new SliverAppBar(
+    return SliverAppBar(
       expandedHeight: 240.0,
       pinned: true,
       actions: <Widget>[
-        new ScopedModelDescendant<AppModel>(
-            builder: (context, child, AppModel model) => new IconButton(
-                icon: new Icon(model.isItemFavorite(widget._mediaItem)
+        ScopedModelDescendant<AppModel>(
+            builder: (context, child, AppModel model) => IconButton(
+                icon: Icon(model.isItemFavorite(widget._mediaItem)
                     ? Icons.favorite
                     : Icons.favorite_border),
                 onPressed: () => model.toggleFavorites(widget._mediaItem)))
       ],
-      flexibleSpace: new FlexibleSpaceBar(
-        background: new Stack(
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            new Hero(
+            Hero(
               tag: "Movie-Tag-${widget._mediaItem.id}",
-              child: new FadeInImage.assetNetwork(
+              child: FadeInImage.assetNetwork(
                   fit: BoxFit.cover,
                   width: double.infinity,
                   placeholder: "assets/placeholder.jpg",
                   image: widget._mediaItem.getBackDropUrl()),
             ),
-            new BottomGradient(),
+            BottomGradient(),
             _buildMetaSection(movie)
           ],
         ),
@@ -125,41 +126,40 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 
   Widget _buildMetaSection(MediaItem mediaItem) {
-    return new AnimatedOpacity(
+    return AnimatedOpacity(
       opacity: _visible ? 1.0 : 0.0,
-      duration: new Duration(milliseconds: 500),
-      child: new Padding(
+      duration: Duration(milliseconds: 500),
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        child: new Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Row(
+            Row(
               children: <Widget>[
-                new TextBubble(
+                TextBubble(
                   mediaItem.getReleaseYear().toString(),
-                  backgroundColor: new Color(0xffF47663),
+                  backgroundColor: Color(0xffF47663),
                 ),
-                new Container(
+                Container(
                   width: 8.0,
                 ),
-                new TextBubble(mediaItem.voteAverage.toString(),
-                    backgroundColor: new Color(0xffF47663)),
+                TextBubble(mediaItem.voteAverage.toString(),
+                    backgroundColor: Color(0xffF47663)),
               ],
             ),
-            new Container(
+            Container(
               margin: const EdgeInsets.symmetric(vertical: 8.0),
-              child: new Text(mediaItem.title,
-                  style: new TextStyle(
-                      color: new Color(0xFFEEEEEE), fontSize: 20.0)),
+              child: Text(mediaItem.title,
+                  style: TextStyle(color: Color(0xFFEEEEEE), fontSize: 20.0)),
             ),
-            new Row(
+            Row(
               children: getGenresForIds(mediaItem.genreIds)
                   .sublist(0, min(5, mediaItem.genreIds.length))
-                  .map((genre) => new Row(
+                  .map((genre) => Row(
                         children: <Widget>[
-                          new TextBubble(genre),
-                          new Container(
+                          TextBubble(genre),
+                          Container(
                             width: 8.0,
                           )
                         ],
@@ -173,71 +173,71 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 
   Widget _buildContentSection(MediaItem media) {
-    return new SliverList(
-      delegate: new SliverChildListDelegate(<Widget>[
-        new Container(
-          decoration: new BoxDecoration(color: const Color(0xff222128)),
-          child: new Padding(
+    return SliverList(
+      delegate: SliverChildListDelegate(<Widget>[
+        Container(
+          decoration: BoxDecoration(color: const Color(0xff222128)),
+          child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: new Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Text(
+                Text(
                   "SYNOPSIS",
                   style: const TextStyle(color: Colors.white),
                 ),
-                new Container(
+                Container(
                   height: 8.0,
                 ),
-                new Text(media.overview,
+                Text(media.overview,
                     style:
                         const TextStyle(color: Colors.white, fontSize: 12.0)),
-                new Container(
+                Container(
                   height: 8.0,
                 ),
               ],
             ),
           ),
         ),
-        new Container(
-          decoration: new BoxDecoration(color: primary),
-          child: new Padding(
+        Container(
+          decoration: BoxDecoration(color: primary),
+          child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: _actorList == null
-                  ? new Center(
-                      child: new CircularProgressIndicator(),
+                  ? Center(
+                      child: CircularProgressIndicator(),
                     )
-                  : new CastSection(_actorList)),
+                  : CastSection(_actorList)),
         ),
-        new Container(
-          decoration: new BoxDecoration(color: primaryDark),
-          child: new Padding(
+        Container(
+          decoration: BoxDecoration(color: primaryDark),
+          child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: _mediaDetails == null
-                  ? new Center(
-                      child: new CircularProgressIndicator(),
+                  ? Center(
+                      child: CircularProgressIndicator(),
                     )
-                  : new MetaSection(_mediaDetails)),
+                  : MetaSection(_mediaDetails)),
         ),
         (widget._mediaItem.type == MediaType.show)
-            ? new Container(
-                decoration: new BoxDecoration(color: primary),
-                child: new Padding(
+            ? Container(
+                decoration: BoxDecoration(color: primary),
+                child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: _seasonList == null
-                        ? new Container()
-                        : new SeasonSection(widget._mediaItem, _seasonList)),
+                        ? Container()
+                        : SeasonSection(widget._mediaItem, _seasonList)),
               )
-            : new Container(),
-        new Container(
-            decoration: new BoxDecoration(
+            : Container(),
+        Container(
+            decoration: BoxDecoration(
                 color: (widget._mediaItem.type == MediaType.movie
                     ? primary
                     : primaryDark)),
             child: _similarMedia == null
-                ? new Container()
-                : new SimilarSection(_similarMedia))
+                ? Container()
+                : SimilarSection(_similarMedia))
       ]),
     );
   }

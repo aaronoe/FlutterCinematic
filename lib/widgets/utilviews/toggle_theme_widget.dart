@@ -9,9 +9,9 @@ class ToggleThemeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ScopedModelDescendant<AppModel>(
-      builder: (context, child, model) => new IconButton(
-          icon: new Icon(
+    return ScopedModelDescendant<AppModel>(
+      builder: (context, child, model) => IconButton(
+          icon: Icon(
             Icons.color_lens,
             color: Colors.white,
           ),

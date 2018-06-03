@@ -3,9 +3,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum LoadingState { DONE, LOADING, WAITING, ERROR }
 
-final dollarFormat = new NumberFormat("#,##0.00", "en_US");
-final sourceFormat = new DateFormat('yyyy-MM-dd');
-final dateFormat = new DateFormat.yMMMMd("en_US");
+final dollarFormat = NumberFormat("#,##0.00", "en_US");
+final sourceFormat = DateFormat('yyyy-MM-dd');
+final dateFormat = DateFormat.yMMMMd("en_US");
 
 Map<int, String> _genreMap = {
   28: 'Action',
@@ -29,7 +29,7 @@ Map<int, String> _genreMap = {
   53: 'Thriller',
   10752: 'War',
   37: 'Western',
-  10763: 'News',
+  10763: '',
   10764: 'Reality',
   10765: 'Sci-Fi & Fantasy',
   10766: 'Soap',
@@ -41,14 +41,14 @@ List<String> getGenresForIds(List<int> genreIds) =>
     genreIds.map((id) => _genreMap[id]).toList();
 
 String getGenreString(List<int> genreIds) {
-  StringBuffer buffer = new StringBuffer();
+  StringBuffer buffer = StringBuffer();
   buffer.writeAll(getGenresForIds(genreIds), ", ");
   return buffer.toString();
 }
 
-String concatListToString(List<Map> data, String mapKey) {
-  StringBuffer buffer = new StringBuffer();
-  buffer.writeAll(data.map((Map map) => map[mapKey]), ", ");
+String concatListToString(List<dynamic> data, String mapKey) {
+  StringBuffer buffer = StringBuffer();
+  buffer.writeAll(data.map<String>((map) => map[mapKey]).toList(), ", ");
   return buffer.toString();
 }
 

@@ -8,19 +8,19 @@ import 'package:rxdart/rxdart.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
-  _SearchPageState createState() => new _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchScreen> {
-  ApiClient _apiClient = new ApiClient();
-  List<SearchResult> _resultList = new List();
+  ApiClient _apiClient = ApiClient();
+  List<SearchResult> _resultList = List();
   SearchBar searchBar;
   LoadingState _currentState = LoadingState.WAITING;
-  PublishSubject<String> querySubject = new PublishSubject();
-  TextEditingController textController = new TextEditingController();
+  PublishSubject<String> querySubject = PublishSubject();
+  TextEditingController textController = TextEditingController();
 
   _SearchPageState() {
-    searchBar = new SearchBar(
+    searchBar = SearchBar(
         inBar: true,
         controller: textController,
         setState: setState,
@@ -38,10 +38,10 @@ class _SearchPageState extends State<SearchScreen> {
 
     querySubject.stream
         .where((query) => query.isNotEmpty)
-        .debounce(new Duration(milliseconds: 250))
+        .debounce(Duration(milliseconds: 250))
         .distinct()
         .switchMap((query) =>
-            new Observable.fromFuture(_apiClient.getSearchResults(query)))
+            Observable.fromFuture(_apiClient.getSearchResults(query)))
         .listen(_setResults, onError: _setErrorState);
   }
 
@@ -64,38 +64,36 @@ class _SearchPageState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         appBar: searchBar.build(context), body: _buildContentSection());
   }
 
   Widget _buildContentSection() {
     switch (_currentState) {
       case LoadingState.WAITING:
-        return new Center(
-            child: new Text("Search for movies, shows and actors"));
+        return Center(child: Text("Search for movies, shows and actors"));
       case LoadingState.ERROR:
-        return new Center(child: new Text("An error occured"));
+        return Center(child: Text("An error occured"));
       case LoadingState.LOADING:
-        return new Center(
-          child: new CircularProgressIndicator(),
+        return Center(
+          child: CircularProgressIndicator(),
         );
       case LoadingState.DONE:
         return (_resultList == null || _resultList.length == 0)
-            ? new Center(
-                child:
-                    new Text("Unforunately there aren't any matching results!"))
-            : new ListView.builder(
+            ? Center(
+                child: Text("Unforunately there aren't any matching results!"))
+            : ListView.builder(
                 itemCount: _resultList.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    new SearchItemCard(_resultList[index]));
+                    SearchItemCard(_resultList[index]));
       default:
-        return new Container();
+        return Container();
     }
   }
 
   AppBar _buildAppBar(BuildContext context) {
-    return new AppBar(
-        title: new Text('Search Movies'),
+    return AppBar(
+        title: Text('Search Movies'),
         actions: [searchBar.getSearchAction(context)]);
   }
 }

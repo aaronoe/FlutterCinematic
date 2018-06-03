@@ -5,12 +5,12 @@ import 'package:movies_flutter/model/cast.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/api_client.dart';
 import 'package:movies_flutter/util/styles.dart';
-import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/media_list/media_list_item.dart';
 import 'package:movies_flutter/widgets/utilviews/fitted_circle_avatar.dart';
 
 class ActorDetailScreen extends StatelessWidget {
   final Actor _actor;
-  final ApiClient _apiClient = new ApiClient();
+  final ApiClient _apiClient = ApiClient();
 
   ActorDetailScreen(this._actor);
 
@@ -19,12 +19,12 @@ class ActorDetailScreen extends StatelessWidget {
     var movieFuture = _apiClient.getMoviesForActor(_actor.id);
     var showFuture = _apiClient.getShowsForActor(_actor.id);
 
-    return new DefaultTabController(
+    return DefaultTabController(
       length: 2,
-      child: new Scaffold(
+      child: Scaffold(
         backgroundColor: primary,
-        body: new NestedScrollView(
-          body: new TabBarView(
+        body: NestedScrollView(
+          body: TabBarView(
             children: <Widget>[
               _buildMoviesSection(movieFuture),
               _buildMoviesSection(showFuture),
@@ -39,51 +39,50 @@ class ActorDetailScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context, Actor actor) {
-    return new SliverAppBar(
+    return SliverAppBar(
       expandedHeight: 240.0,
-      bottom: new TabBar(
+      bottom: TabBar(
         tabs: <Widget>[
-          new Tab(
-            icon: new Icon(Icons.movie),
+          Tab(
+            icon: Icon(Icons.movie),
           ),
-          new Tab(
-            icon: new Icon(Icons.tv),
+          Tab(
+            icon: Icon(Icons.tv),
           ),
         ],
       ),
       pinned: true,
-      flexibleSpace: new FlexibleSpaceBar(
-        background: new Container(
-          decoration: new BoxDecoration(
-              gradient: new LinearGradient(colors: [
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
             const Color(0xff2b5876),
             const Color(0xff4e4376),
           ])),
-          child: new Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Container(
+              Container(
                 height: MediaQuery.of(context).padding.top,
               ),
-              new Hero(
+              Hero(
                   tag: 'Cast-Hero-${actor.id}',
-                  child: new Container(
+                  child: Container(
                     width: 112.0,
                     height: 112.0,
-                    child: new FittedCircleAvatar(
-                      backgroundImage:
-                          new NetworkImage(actor.profilePictureUrl),
+                    child: FittedCircleAvatar(
+                      backgroundImage: NetworkImage(actor.profilePictureUrl),
                     ),
                   )),
-              new Container(
+              Container(
                 height: 8.0,
               ),
-              new Text(
+              Text(
                 actor.name,
                 style: whiteBody.copyWith(fontSize: 22.0),
               ),
-              new Container(
+              Container(
                 height: 16.0,
               ),
             ],
@@ -94,18 +93,18 @@ class ActorDetailScreen extends StatelessWidget {
   }
 
   Widget _buildMoviesSection(Future<List<MediaItem>> future) {
-    return new FutureBuilder(
+    return FutureBuilder(
       future: future,
       builder: (BuildContext context, AsyncSnapshot<List<MediaItem>> snapshot) {
         return snapshot.hasData
-            ? new ListView.builder(
+            ? ListView.builder(
                 itemBuilder: (BuildContext context, int index) =>
-                    new MovieListItem(snapshot.data[index]),
+                    MediaListItem(snapshot.data[index]),
                 itemCount: snapshot.data.length,
               )
-            : new Padding(
+            : Padding(
                 padding: const EdgeInsets.all(32.0),
-                child: new Center(child: new CircularProgressIndicator()),
+                child: Center(child: CircularProgressIndicator()),
               );
       },
     );

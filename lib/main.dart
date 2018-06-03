@@ -7,6 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-  runApp(new ScopedModel<AppModel>(
-      model: new AppModel(sharedPreferences), child: new CinematicApp()));
+  runApp(ScopedModel<AppModel>(
+      model: AppModel(sharedPreferences), child: CinematicApp()));
 }

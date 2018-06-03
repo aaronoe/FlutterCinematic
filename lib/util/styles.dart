@@ -5,5 +5,5 @@ Color primaryDark = const Color(0xFF222128);
 Color colorAccent = const Color(0xFF65BFA6);
 Color salmon = const Color(0xFFF47663);
 
-final TextStyle captionStyle = new TextStyle(color: Colors.grey[400]);
-final TextStyle whiteBody = new TextStyle(color: Colors.white);
+final TextStyle captionStyle = TextStyle(color: Colors.grey[400]);
+final TextStyle whiteBody = TextStyle(color: Colors.white);

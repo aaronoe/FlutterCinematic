@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/utils.dart';
-import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/media_list/media_list_item.dart';
 
 class MediaList extends StatefulWidget {
   MediaList(this.provider, this.category, {Key key}) : super(key: key);
@@ -11,11 +11,11 @@ class MediaList extends StatefulWidget {
   final String category;
 
   @override
-  _MediaListState createState() => new _MediaListState();
+  _MediaListState createState() => _MediaListState();
 }
 
 class _MediaListState extends State<MediaList> {
-  List<MediaItem> _movies = new List();
+  List<MediaItem> _movies = List();
   int _pageNumber = 1;
   LoadingState _loadingState = LoadingState.LOADING;
   bool _isLoading = false;
@@ -47,27 +47,27 @@ class _MediaListState extends State<MediaList> {
 
   @override
   Widget build(BuildContext context) {
-    return new Center(child: _getContentSection());
+    return Center(child: _getContentSection());
   }
 
   Widget _getContentSection() {
     switch (_loadingState) {
       case LoadingState.DONE:
-        return new ListView.builder(
+        return ListView.builder(
             itemCount: _movies.length,
             itemBuilder: (BuildContext context, int index) {
               if (!_isLoading && index > (_movies.length * 0.7)) {
                 _loadNextPage();
               }
 
-              return new MovieListItem(_movies[index]);
+              return MediaListItem(_movies[index]);
             });
       case LoadingState.ERROR:
-        return new Text('Sorry, there was an error loading your movie');
+        return Text('Sorry, there was an error loading the data!');
       case LoadingState.LOADING:
-        return new CircularProgressIndicator();
+        return CircularProgressIndicator();
       default:
-        return new Container();
+        return Container();
     }
   }
 }

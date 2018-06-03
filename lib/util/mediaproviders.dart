@@ -17,7 +17,7 @@ abstract class MediaProvider {
 class MovieProvider extends MediaProvider {
   MovieProvider();
 
-  ApiClient _apiClient = new ApiClient();
+  ApiClient _apiClient = ApiClient();
 
   @override
   Future<List<MediaItem>> loadMedia(String category, {int page: 1}) {
@@ -43,7 +43,7 @@ class MovieProvider extends MediaProvider {
 class ShowProvider extends MediaProvider {
   ShowProvider();
 
-  ApiClient _apiClient = new ApiClient();
+  ApiClient _apiClient = ApiClient();
 
   @override
   Future<List<MediaItem>> loadMedia(String category, {int page: 1}) {
