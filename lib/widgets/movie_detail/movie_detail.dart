@@ -61,7 +61,9 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
     try {
       dynamic details = await widget.provider.getDetails(widget._mediaItem.id);
       setState(() => _mediaDetails = details);
-    } catch (e) {}
+    } catch (e) {
+      e.toString();
+    }
   }
 
   void _loadSeasons() async {

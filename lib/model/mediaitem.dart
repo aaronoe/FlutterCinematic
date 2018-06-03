@@ -34,7 +34,9 @@ class MediaItem {
         overview = jsonMap["overview"],
         releaseDate = jsonMap[
             (type == MediaType.movie ? "release_date" : "first_air_date")],
-        genreIds = jsonMap["genre_ids"];
+        genreIds = (jsonMap["genre_ids"] as List<dynamic>)
+            .map<int>((value) => value.toInt())
+            .toList();
 
   Map toJson() => {
         'type': type == MediaType.movie ? 1 : 0,

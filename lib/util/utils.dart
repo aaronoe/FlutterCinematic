@@ -46,9 +46,9 @@ String getGenreString(List<int> genreIds) {
   return buffer.toString();
 }
 
-String concatListToString(List<Map> data, String mapKey) {
+String concatListToString(List<dynamic> data, String mapKey) {
   StringBuffer buffer = new StringBuffer();
-  buffer.writeAll(data.map((Map map) => map[mapKey]), ", ");
+  buffer.writeAll(data.map<String>((map) => map[mapKey]).toList(), ", ");
   return buffer.toString();
 }
 
