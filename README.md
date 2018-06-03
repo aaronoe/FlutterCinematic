@@ -14,6 +14,12 @@ sources and uses the standard dart libraries for making network requests.
 In terms of UI, the goal was replicating the Android design as closely as possible to understand
 the possibilities that Flutter offers for crafting UIs.
 
+## Building from Source
+
+To build this app from source you will have to obtain an API-key from [TMDB right here](https://developers.themoviedb.org/3/getting-started/introduction).
+Set this key to the constant `API_KEY` in `constants.dart` to run the app.
+Additionally, the app now uses Dart2 which means that you should enable that in your IDE if you haven't done so yet.
+
 ## Video
 
 ![In App Experience](https://github.com/aaronoe/FlutterCinematic/blob/master/screenshots/flutter_cinematic_gif.gif?raw=true)
