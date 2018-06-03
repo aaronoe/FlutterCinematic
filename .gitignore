@@ -8,5 +8,6 @@ build/
 ios/.generated/
 packages
 .flutter-plugins
+/lib/util/constants.dart
 /android/flutter_cinematic.jks
 /android/key.properties
