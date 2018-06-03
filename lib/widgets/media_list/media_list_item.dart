@@ -3,22 +3,22 @@ import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/util/utils.dart';
 
-class MovieListItem extends StatelessWidget {
-  MovieListItem(this.movie);
+class MediaListItem extends StatelessWidget {
+  MediaListItem(this.movie);
 
   final MediaItem movie;
 
   Widget _getTitleSection(BuildContext context) {
-    return new Container(
+    return Container(
       padding: const EdgeInsets.all(12.0),
-      child: new Row(
+      child: Row(
         children: [
-          new Expanded(
-            child: new Column(
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                new Container(
-                  child: new Text(
+                Container(
+                  child: Text(
                     movie.title,
                     style: Theme
                         .of(context)
@@ -27,9 +27,9 @@ class MovieListItem extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
-                new Container(
+                Container(
                   padding: const EdgeInsets.only(top: 4.0),
-                  child: new Text(
+                  child: Text(
                     getGenreString(movie.genreIds),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -39,40 +39,40 @@ class MovieListItem extends StatelessWidget {
               ],
             ),
           ),
-          new Container(
+          Container(
             width: 12.0,
           ),
-          new Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              new Row(
+              Row(
                 children: <Widget>[
-                  new Text(
+                  Text(
                     movie.voteAverage.toString(),
                     style: Theme.of(context).textTheme.body1,
                   ),
-                  new Container(
+                  Container(
                     width: 4.0,
                   ),
-                  new Icon(
+                  Icon(
                     Icons.star,
                     size: 16.0,
                   )
                 ],
               ),
-              new Container(
+              Container(
                 height: 4.0,
               ),
-              new Row(
+              Row(
                 children: <Widget>[
-                  new Text(
+                  Text(
                     movie.getReleaseYear().toString(),
                     style: Theme.of(context).textTheme.body1,
                   ),
-                  new Container(
+                  Container(
                     width: 4.0,
                   ),
-                  new Icon(
+                  Icon(
                     Icons.date_range,
                     size: 16.0,
                   )
@@ -87,19 +87,19 @@ class MovieListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-      child: new InkWell(
+    return Card(
+      child: InkWell(
         onTap: () => goToMovieDetails(context, movie),
-        child: new Column(
+        child: Column(
           children: <Widget>[
-            new Hero(
-              child: new FadeInImage.assetNetwork(
+            Hero(
+              child: FadeInImage.assetNetwork(
                 placeholder: "assets/placeholder.jpg",
                 image: movie.getBackDropUrl(),
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: 200.0,
-                fadeInDuration: new Duration(milliseconds: 50),
+                fadeInDuration: Duration(milliseconds: 50),
               ),
               tag: "Movie-Tag-${movie.id}",
             ),

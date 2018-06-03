@@ -22,7 +22,7 @@ class MediaItem {
   }
 
   factory MediaItem(Map jsonMap, MediaType type) =>
-      new MediaItem._internalFromJson(jsonMap, type: type);
+      MediaItem._internalFromJson(jsonMap, type: type);
 
   MediaItem._internalFromJson(Map jsonMap, {MediaType type: MediaType.movie})
       : type = type,
@@ -50,11 +50,9 @@ class MediaItem {
         'genre_ids': genreIds
       };
 
-  factory MediaItem.fromPrefsJson(Map jsonMap) =>
-      new MediaItem._internalFromJson(jsonMap,
-          type: (jsonMap['type'].toInt() == 1)
-              ? MediaType.movie
-              : MediaType.show);
+  factory MediaItem.fromPrefsJson(Map jsonMap) => MediaItem._internalFromJson(
+      jsonMap,
+      type: (jsonMap['type'].toInt() == 1) ? MediaType.movie : MediaType.show);
 }
 
 enum MediaType { movie, show }

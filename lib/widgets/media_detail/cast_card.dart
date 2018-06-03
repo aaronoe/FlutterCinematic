@@ -13,17 +13,17 @@ class CastCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
+    return GestureDetector(
       onTap: () => goToActorDetails(context, actor),
-      child: new Container(
+      child: Container(
         height: height,
         width: width,
-        child: new Stack(
+        child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            new Hero(
+            Hero(
               tag: 'Cast-Hero-${actor.id}',
-              child: new FadeInImage.assetNetwork(
+              child: FadeInImage.assetNetwork(
                 placeholder: 'assets/placeholder.jpg',
                 image: actor.profilePictureUrl,
                 fit: BoxFit.cover,
@@ -31,37 +31,37 @@ class CastCard extends StatelessWidget {
                 width: width,
               ),
             ),
-            new BottomGradient.noOffset(),
-            new Padding(
+            BottomGradient.noOffset(),
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: new Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(
+                  Text(
                     actor.name,
                     style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 10.0),
                   ),
-                  new Container(
+                  Container(
                     height: 4.0,
                   ),
-                  new Row(
+                  Row(
                     children: <Widget>[
-                      new Expanded(
-                          child: new Icon(
+                      Expanded(
+                          child: Icon(
                         Icons.person,
                         color: salmon,
                         size: 10.0,
                       )),
-                      new Container(
+                      Container(
                         width: 4.0,
                       ),
-                      new Expanded(
+                      Expanded(
                         flex: 8,
-                        child: new Text(actor.character,
+                        child: Text(actor.character,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,

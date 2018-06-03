@@ -9,24 +9,24 @@ class CastSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        new Text(
+        Text(
           "Cast",
-          style: new TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
-        new Container(
+        Container(
           height: 8.0,
         ),
-        new Container(
+        Container(
           height: 140.0,
-          child: new ListView(
+          child: ListView(
             scrollDirection: Axis.horizontal,
             children: _cast
-                .map((Actor actor) => new Padding(
+                .map((Actor actor) => Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: new CastCard(actor),
+                      child: CastCard(actor),
                     ))
                 .toList(),
           ),

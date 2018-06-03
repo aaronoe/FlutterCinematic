@@ -10,33 +10,32 @@ import 'package:movies_flutter/widgets/search/search_page.dart';
 import 'package:movies_flutter/widgets/season_detail/season_detail_screen.dart';
 
 goToMovieDetails(BuildContext context, MediaItem movie) {
-  MediaProvider provider = (movie.type == MediaType.movie)
-      ? new MovieProvider()
-      : new ShowProvider();
-  _pushWidgetWithFade(context, new MediaDetailScreen(movie, provider));
+  MediaProvider provider =
+      (movie.type == MediaType.movie) ? MovieProvider() : ShowProvider();
+  _pushWidgetWithFade(context, MediaDetailScreen(movie, provider));
 }
 
 goToSeasonDetails(BuildContext context, MediaItem show, TvSeason season) =>
-    _pushWidgetWithFade(context, new SeasonDetailScreen(show, season));
+    _pushWidgetWithFade(context, SeasonDetailScreen(show, season));
 
 goToActorDetails(BuildContext context, Actor actor) {
-  _pushWidgetWithFade(context, new ActorDetailScreen(actor));
+  _pushWidgetWithFade(context, ActorDetailScreen(actor));
 }
 
 goToSearch(BuildContext context) {
-  _pushWidgetWithFade(context, new SearchScreen());
+  _pushWidgetWithFade(context, SearchScreen());
 }
 
 goToFavorites(BuildContext context) {
-  _pushWidgetWithFade(context, new FavoriteScreen());
+  _pushWidgetWithFade(context, FavoriteScreen());
 }
 
 _pushWidgetWithFade(BuildContext context, Widget widget) {
   Navigator.of(context).push(
-        new PageRouteBuilder(
+        PageRouteBuilder(
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
-                    new FadeTransition(opacity: animation, child: child),
+                    FadeTransition(opacity: animation, child: child),
             pageBuilder: (BuildContext context, Animation animation,
                 Animation secondaryAnimation) {
               return widget;

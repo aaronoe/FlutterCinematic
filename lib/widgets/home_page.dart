@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/navigator.dart';
-import 'package:movies_flutter/widgets/movie_list/media_list.dart';
+import 'package:movies_flutter/widgets/media_list/media_list.dart';
 import 'package:movies_flutter/widgets/utilviews/toggle_theme_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  State createState() => new HomePageState();
+  State createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
@@ -15,77 +15,77 @@ class HomePageState extends State<HomePage> {
   int _page = 0;
   MediaType mediaType = MediaType.movie;
 
-  final MediaProvider movieProvider = new MovieProvider();
-  final MediaProvider showProvider = new ShowProvider();
+  final MediaProvider movieProvider = MovieProvider();
+  final MediaProvider showProvider = ShowProvider();
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         actions: <Widget>[
-          new ToggleThemeButton(),
-          new IconButton(
-            icon: new Icon(Icons.search, color: Colors.white),
+          ToggleThemeButton(),
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.white),
             onPressed: () => goToSearch(context),
           )
         ],
-        title: new Text("Cinematic"),
+        title: Text("Cinematic"),
       ),
-      drawer: new Drawer(
-        child: new ListView(
+      drawer: Drawer(
+        child: ListView(
           children: <Widget>[
-            new DrawerHeader(
+            DrawerHeader(
                 padding: const EdgeInsets.all(0.0),
-                child: new Container(
-                  decoration: new BoxDecoration(
-                      gradient: new LinearGradient(colors: [
+                child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
                     const Color(0xff2b5876),
                     const Color(0xff4e4376),
                   ])),
                 )),
-            new ListTile(
-              title: new Text("Search"),
-              trailing: new Icon(Icons.search),
+            ListTile(
+              title: Text("Search"),
+              trailing: Icon(Icons.search),
               onTap: () => goToSearch(context),
             ),
-            new ListTile(
-              title: new Text("Favorites"),
-              trailing: new Icon(Icons.favorite),
+            ListTile(
+              title: Text("Favorites"),
+              trailing: Icon(Icons.favorite),
               onTap: () => goToFavorites(context),
             ),
-            new Divider(
+            Divider(
               height: 5.0,
             ),
-            new ListTile(
-              title: new Text("Movies"),
+            ListTile(
+              title: Text("Movies"),
               selected: mediaType == MediaType.movie,
-              trailing: new Icon(Icons.local_movies),
+              trailing: Icon(Icons.local_movies),
               onTap: () {
                 _changeMediaType(MediaType.movie);
                 Navigator.of(context).pop();
               },
             ),
-            new ListTile(
-              title: new Text("TV Shows"),
+            ListTile(
+              title: Text("TV Shows"),
               selected: mediaType == MediaType.show,
-              trailing: new Icon(Icons.live_tv),
+              trailing: Icon(Icons.live_tv),
               onTap: () {
                 _changeMediaType(MediaType.show);
                 Navigator.of(context).pop();
               },
             ),
-            new Divider(
+            Divider(
               height: 5.0,
             ),
-            new ListTile(
-              title: new Text("Close"),
-              trailing: new Icon(Icons.close),
+            ListTile(
+              title: Text("Close"),
+              trailing: Icon(Icons.close),
               onTap: () => Navigator.of(context).pop(),
             )
           ],
         ),
       ),
-      body: new PageView(
+      body: PageView(
         children: _getMediaList(),
         pageSnapping: true,
         controller: _pageController,
@@ -95,7 +95,7 @@ class HomePageState extends State<HomePage> {
           });
         },
       ),
-      bottomNavigationBar: new BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: _getNavBarItems(),
         onTap: _navigationTapped,
         currentIndex: _page,
@@ -114,21 +114,21 @@ class HomePageState extends State<HomePage> {
   List<BottomNavigationBarItem> _getNavBarItems() {
     if (mediaType == MediaType.movie) {
       return [
-        new BottomNavigationBarItem(
-            icon: new Icon(Icons.thumb_up), title: new Text('Popular')),
-        new BottomNavigationBarItem(
-            icon: new Icon(Icons.update), title: new Text('Upcoming')),
-        new BottomNavigationBarItem(
-            icon: new Icon(Icons.star), title: new Text('Top Rated')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.thumb_up), title: Text('Popular')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.update), title: Text('Upcoming')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.star), title: Text('Top Rated')),
       ];
     } else {
       return [
-        new BottomNavigationBarItem(
-            icon: new Icon(Icons.thumb_up), title: new Text('Popular')),
-        new BottomNavigationBarItem(
-            icon: new Icon(Icons.live_tv), title: new Text('On The Air')),
-        new BottomNavigationBarItem(
-            icon: new Icon(Icons.star), title: new Text('Top Rated')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.thumb_up), title: Text('Popular')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.live_tv), title: Text('On The Air')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.star), title: Text('Top Rated')),
       ];
     }
   }
@@ -136,23 +136,18 @@ class HomePageState extends State<HomePage> {
   List<Widget> _getMediaList() {
     return (mediaType == MediaType.movie)
         ? <Widget>[
-            new MediaList(
+            MediaList(
               movieProvider,
               "popular",
-              key: new Key("movies-popular"),
+              key: Key("movies-popular"),
             ),
-            new MediaList(movieProvider, "upcoming",
-                key: new Key("movies-upcoming")),
-            new MediaList(movieProvider, "top_rated",
-                key: new Key("movies-top_rated")),
+            MediaList(movieProvider, "upcoming", key: Key("movies-upcoming")),
+            MediaList(movieProvider, "top_rated", key: Key("movies-top_rated")),
           ]
         : <Widget>[
-            new MediaList(showProvider, "popular",
-                key: new Key("shows-popular")),
-            new MediaList(showProvider, "on_the_air",
-                key: new Key("shows-on_the_air")),
-            new MediaList(showProvider, "top_rated",
-                key: new Key("shows-top_rated")),
+            MediaList(showProvider, "popular", key: Key("shows-popular")),
+            MediaList(showProvider, "on_the_air", key: Key("shows-on_the_air")),
+            MediaList(showProvider, "top_rated", key: Key("shows-top_rated")),
           ];
   }
 
@@ -164,7 +159,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _pageController = new PageController();
+    _pageController = PageController();
   }
 
   @override

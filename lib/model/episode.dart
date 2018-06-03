@@ -1,7 +1,6 @@
 import 'package:movies_flutter/util/utils.dart';
 
 class Episode {
-
   String title;
   String overview;
   String stillPath;
@@ -18,5 +17,4 @@ class Episode {
         voteAverage = jsonMap['vote_average'] as double ?? 0.0,
         episodeNumber = jsonMap['episode_number'],
         airDate = jsonMap['air_date'];
-
 }

@@ -11,16 +11,16 @@ class TextBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      decoration: new BoxDecoration(
+    return Container(
+      decoration: BoxDecoration(
           color: backgroundColor,
           shape: BoxShape.rectangle,
-          borderRadius: new BorderRadius.circular(12.0)),
-      child: new Padding(
+          borderRadius: BorderRadius.circular(12.0)),
+      child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-        child: new Text(
+        child: Text(
           text,
-          style: new TextStyle(color: textColor, fontSize: 12.0),
+          style: TextStyle(color: textColor, fontSize: 12.0),
         ),
       ),
     );

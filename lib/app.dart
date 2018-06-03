@@ -7,11 +7,11 @@ class CinematicApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new ScopedModelDescendant<AppModel>(
-      builder: (context, child, model) => new MaterialApp(
+    return ScopedModelDescendant<AppModel>(
+      builder: (context, child, model) => MaterialApp(
             title: 'Cinematic',
             theme: model.theme,
-            home: new HomePage(),
+            home: HomePage(),
           ),
     );
   }

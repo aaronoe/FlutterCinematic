@@ -13,8 +13,7 @@ class FittedCircleAvatar extends StatelessWidget {
     this.foregroundColor,
     this.radius: 20.0,
     this.fit: BoxFit.cover,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   /// The widget below this widget in the tree.
   ///
@@ -23,7 +22,7 @@ class FittedCircleAvatar extends StatelessWidget {
   final Widget child;
 
   /// The color with which to fill the circle. Changing the background
-  /// color will cause the avatar to animate to the new color.
+  /// color will cause the avatar to animate to the color.
   ///
   /// If a background color is not specified, the theme's primary color is used.
   final Color backgroundColor;
@@ -35,13 +34,13 @@ class FittedCircleAvatar extends StatelessWidget {
   final Color foregroundColor;
 
   /// The background image of the circle. Changing the background
-  /// image will cause the avatar to animate to the new image.
+  /// image will cause the avatar to animate to the image.
   ///
   /// If the [CircleAvatar] is to have the user's initials, use [child] instead.
   final ImageProvider backgroundImage;
 
   /// The size of the avatar. Changing the radius will cause the
-  /// avatar to animate to the new size.
+  /// avatar to animate to the size.
   ///
   /// Defaults to 20 logical pixels.
   final double radius;
@@ -68,31 +67,31 @@ class FittedCircleAvatar extends StatelessWidget {
           break;
       }
     }
-    return new AnimatedContainer(
+    return AnimatedContainer(
       width: radius * 2.0,
       height: radius * 2.0,
       duration: kThemeChangeDuration,
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         color: backgroundColor ?? theme.primaryColor,
         image: backgroundImage != null
-            ? new DecorationImage(
-          image: backgroundImage,
-          fit: fit,
-        )
+            ? DecorationImage(
+                image: backgroundImage,
+                fit: fit,
+              )
             : null,
         shape: BoxShape.circle,
       ),
       child: child != null
-          ? new Center(
-          child: new MediaQuery(
-            // Need to reset the textScaleFactor here so that the
-            // text doesn't escape the avatar when the textScaleFactor is large.
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            child: new DefaultTextStyle(
-              style: textStyle.copyWith(color: foregroundColor),
-              child: child,
-            ),
-          ))
+          ? Center(
+              child: MediaQuery(
+              // Need to reset the textScaleFactor here so that the
+              // text doesn't escape the avatar when the textScaleFactor is large.
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: DefaultTextStyle(
+                style: textStyle.copyWith(color: foregroundColor),
+                child: child,
+              ),
+            ))
           : null,
     );
   }
