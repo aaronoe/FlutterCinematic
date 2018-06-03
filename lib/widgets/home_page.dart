@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
-import 'package:movies_flutter/scoped_models/app_model.dart';
 import 'package:movies_flutter/util/mediaproviders.dart';
 import 'package:movies_flutter/util/navigator.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:movies_flutter/widgets/utilviews/toggle_theme_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,14 +23,7 @@ class HomePageState extends State<HomePage> {
     return new Scaffold(
       appBar: new AppBar(
         actions: <Widget>[
-          new ScopedModelDescendant<AppModel>(
-            builder: (context, child, model) => new IconButton(
-                icon: new Icon(
-                  Icons.color_lens,
-                  color: Colors.white,
-                ),
-                onPressed: () => model.toggleTheme()),
-          ),
+          new ToggleThemeButton(),
           new IconButton(
             icon: new Icon(Icons.search, color: Colors.white),
             onPressed: () => goToSearch(context),

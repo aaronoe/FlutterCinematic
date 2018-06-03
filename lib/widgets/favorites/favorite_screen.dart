@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_flutter/model/mediaitem.dart';
 import 'package:movies_flutter/scoped_models/app_model.dart';
 import 'package:movies_flutter/widgets/movie_list/movie_list_item.dart';
+import 'package:movies_flutter/widgets/utilviews/toggle_theme_widget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class FavoriteScreen extends StatelessWidget {
       child: new Scaffold(
         appBar: new AppBar(
           title: new Text("Favorites"),
+          actions: <Widget>[new ToggleThemeButton()],
           bottom: new TabBar(
             tabs: [
               new Tab(
@@ -43,10 +45,12 @@ class _FavoriteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-        itemCount: _media.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new MovieListItem(_media[index]);
-        });
+    return _media.length == 0
+        ? new Center(child: new Text("You have no favorites yet!"))
+        : new ListView.builder(
+            itemCount: _media.length,
+            itemBuilder: (BuildContext context, int index) {
+              return new MovieListItem(_media[index]);
+            });
   }
 }
