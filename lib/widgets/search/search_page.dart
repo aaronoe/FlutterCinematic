@@ -42,7 +42,7 @@ class _SearchPageState extends State<SearchScreen> {
         .distinct()
         .switchMap((query) =>
             Observable.fromFuture(_apiClient.getSearchResults(query)))
-        .listen(_setResults, onError: _setErrorState);
+        .listen(_setResults);
   }
 
   void _setResults(List<SearchResult> results) {
@@ -58,9 +58,6 @@ class _SearchPageState extends State<SearchScreen> {
     querySubject.close();
     textController.dispose();
   }
-
-  void _setErrorState(Error error) =>
-      setState(() => _currentState = LoadingState.ERROR);
 
   @override
   Widget build(BuildContext context) {
